@@ -10,6 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     appInit  = new AppInit(ui);
     appEvent = new AppEvent(this);
     m_timer  = new QTimer();
+    QScreen* screen = QGuiApplication::primaryScreen();  //获取主屏幕
+    QRect rect1 = screen->geometry();
+    qDebug() << "当前屏幕分辨率为：" << rect1.size().width() << rect1.size().height();
+    //todo:根据屏幕设置窗口大小不生效
+    this->resize(rect1.size().width()*0.6, rect1.size().height()*0.6);
 }
 
 // 创建FrameProcessing视频流处理对象
