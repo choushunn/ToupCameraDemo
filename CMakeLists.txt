@@ -54,6 +54,14 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        ctoupcamera.cpp
+        ctoupcamera.h
+        cusbcamera.cpp
+        cusbcamera.h
+        appinit.cpp
+        appinit.h
+        appevent.cpp
+        appevent.h
         ${TS_FILES}
         utils.cpp utils.h
 

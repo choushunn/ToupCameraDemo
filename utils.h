@@ -16,7 +16,6 @@
 //OpenCV 视频接口模块
 #include <opencv2/videoio.hpp>
 
-using namespace cv;
 
 class Utils : public QObject
 {
