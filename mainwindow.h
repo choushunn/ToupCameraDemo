@@ -32,7 +32,9 @@ private:
 private slots:
     void on_m_btn_open_camera_clicked(bool checked);
     void showFrame(QImage image1, QImage image2);
-    void on_gray_process_clicked(bool checked);
+    void on_m_btn_graypro_clicked(bool checked);
     void on_m_btn_hflip_clicked(bool checked);
+    void on_m_btn_Hist_clicked(bool checked);
+    void on_m_btn_rgbHist_clicked(bool checked);
 };
 #endif // MAINWINDOW_H

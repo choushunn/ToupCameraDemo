@@ -11,8 +11,8 @@ enum MyEventType {
     FlipEvent = QEvent::User + 1,
     GrayEvent,
     ScaleEvent,
-    FFTEvent,
-    BlurEvent,
+    HistEvent,
+    rgbHistEvent,
 };
 
 class AppEvent : public QObject
@@ -20,7 +20,12 @@ class AppEvent : public QObject
     Q_OBJECT
 public:
     explicit AppEvent(QObject *parent = nullptr);
-    QVector<MyEventType> m_eventQueue;
+    QVector<MyEventType> m_eventQueue;//动态数组容器
+
+    void drawHist(cv::Mat &src);
+    void drawrgbHist(cv::Mat &src);
+
+
 public slots:
     void processFrame(cv::Mat frame);
 
