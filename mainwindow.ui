@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1019</width>
-    <height>601</height>
+    <width>1337</width>
+    <height>798</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -39,7 +39,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_21">
           <attribute name="title">
@@ -99,7 +99,23 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="m_btn_rgbHist">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>rgb直方图</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="m_btn_Hist">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -505,6 +521,39 @@
          </widget>
         </widget>
        </item>
+       <item>
+        <widget class="QToolBox" name="toolBox">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="page">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>305</width>
+            <height>83</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>功能1</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="page_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>305</width>
+            <height>83</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>功能2</string>
+          </attribute>
+         </widget>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -694,8 +743,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1019</width>
-     <height>17</height>
+     <width>1337</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

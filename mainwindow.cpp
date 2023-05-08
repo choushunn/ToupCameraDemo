@@ -10,11 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     appInit  = new AppInit(ui);
     appEvent = new AppEvent(this);
     m_timer  = new QTimer();
-    QScreen* screen = QGuiApplication::primaryScreen();  //获取主屏幕
-    QRect rect1 = screen->geometry();
-    qDebug() << "当前屏幕分辨率为：" << rect1.size().width() << rect1.size().height();
-    //todo:根据屏幕设置窗口大小不生效
-    this->resize(rect1.size().width()*0.6, rect1.size().height()*0.6);
 }
 
 // 创建FrameProcessing视频流处理对象
@@ -96,7 +91,7 @@ void MainWindow::showFrame(QImage image1, QImage image2)
  * @brief 信号槽，灰度化
  * @param
  */
-void MainWindow::on_gray_process_clicked(bool checked)
+void MainWindow::on_m_btn_graypro_clicked(bool checked)
 {
     if (checked) {
         if(!appEvent->m_eventQueue.contains(GrayEvent)){
@@ -127,6 +122,40 @@ void MainWindow::on_m_btn_hflip_clicked(bool checked)
     }
 }
 
+/**
+ * @brief 信号槽，灰度直方图
+ * @param
+ */
+void MainWindow::on_m_btn_Hist_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(HistEvent)){
+            appEvent->m_eventQueue.append(HistEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(HistEvent)){
+            appEvent->m_eventQueue.removeAll(HistEvent);
+        }
+    }
+}
+
+
+/**
+ * @brief 信号槽，rgb直方图
+ * @param
+ */
+void MainWindow::on_m_btn_rgbHist_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(rgbHistEvent)){
+            appEvent->m_eventQueue.append(rgbHistEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(rgbHistEvent)){
+            appEvent->m_eventQueue.removeAll(rgbHistEvent);
+        }
+    }
+}
 
 
 /**

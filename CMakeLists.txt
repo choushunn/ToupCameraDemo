@@ -7,7 +7,8 @@ message(STATUS "current architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 #配置库文件路径
 if(WIN32)
-    set(THIRD_PARTY_LIB_PATH "E:\\runtime")
+    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\qt\\runtime")
+#    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\qt\\runtime")
 else()
     set(THIRD_PARTY_LIB_PATH "/home/mc/Projects/runtime")
 endif()
