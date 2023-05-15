@@ -93,6 +93,16 @@ void MainWindow::showFrame(QImage image1, QImage image2)
  */
 void MainWindow::on_m_btn_graypro_clicked(bool checked)
 {
+    qDebug() << ui->m_btn_Bchannel->isChecked();
+    if(ui->m_btn_Bchannel->isChecked()){
+        ui->m_btn_Bchannel->setChecked(false);
+        if(appEvent->m_eventQueue.contains(BEvent)){
+            appEvent->m_eventQueue.removeAll((BEvent));
+            ui->m_btn_Bchannel->setChecked(false);
+        }
+        qDebug() << "ischecked";
+        return;
+    }
     if (checked) {
         if(!appEvent->m_eventQueue.contains(GrayEvent)){
             appEvent->m_eventQueue.append(GrayEvent);
@@ -159,6 +169,336 @@ void MainWindow::on_m_btn_rgbHist_clicked(bool checked)
 
 
 /**
+ * @brief 信号槽，自适应维纳滤波
+ * @param
+ */
+//void MainWindow::on_m_btn_AWF_clicked(bool checked)
+//{
+//    if (checked) {
+//        if(!appEvent->m_eventQueue.contains(AWFHistEvent)){
+//            appEvent->m_eventQueue.append(AWFHistEvent);
+//        }
+//    } else {
+//        if(appEvent->m_eventQueue.contains(AWFHistEvent)){
+//            appEvent->m_eventQueue.removeAll(AWFHistEvent);
+//        }
+//    }
+//}
+
+/**
+ * @brief 信号槽，HSV转换
+ * @param
+ */
+void MainWindow::on_m_btn_hsvpro_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(HSVEvent)){
+            appEvent->m_eventQueue.append(HSVEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(HSVEvent)){
+            appEvent->m_eventQueue.removeAll(HSVEvent);
+        }
+    }
+}
+
+/**
+ * @brief 信号槽，蓝色通道显示
+ * @param
+ */
+void MainWindow::on_m_btn_Bchannel_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(BEvent)){
+            appEvent->m_eventQueue.append(BEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(BEvent)){
+            appEvent->m_eventQueue.removeAll(BEvent);
+        }
+    }
+}
+
+/**
+ * @brief 信号槽，绿色通道显示
+ * @param
+ */
+void MainWindow::on_m_btn_Gchannel_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(GEvent)){
+            appEvent->m_eventQueue.append(GEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(GEvent)){
+            appEvent->m_eventQueue.removeAll(GEvent);
+        }
+    }
+}
+
+
+
+/**
+ * @brief 信号槽，红色通道显示
+ * @param
+ */
+void MainWindow::on_m_btn_Rchannel_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(REvent)){
+            appEvent->m_eventQueue.append(REvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(REvent)){
+            appEvent->m_eventQueue.removeAll(REvent);
+        }
+    }
+}
+
+
+
+/**
+ * @brief 信号槽，二值化阈值处理
+ * @param
+ */
+void MainWindow::on_m_btn_binarythre_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(BinthEvent)){
+            appEvent->m_eventQueue.append(BinthEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(BinthEvent)){
+            appEvent->m_eventQueue.removeAll(BinthEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+
+/**
+ * @brief 信号槽，反二值化阈值处理
+ * @param
+ */
+void MainWindow::on_m_btn_binarythre_inv_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(BinthinvEvent)){
+            appEvent->m_eventQueue.append(BinthinvEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(BinthinvEvent)){
+            appEvent->m_eventQueue.removeAll(BinthinvEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+/**
+ * @brief 信号槽，截断阈值化处理
+ * @param
+ */
+void MainWindow::on_m_btn_thtr_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(ThtrEvent)){
+            appEvent->m_eventQueue.append(ThtrEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(ThtrEvent)){
+            appEvent->m_eventQueue.removeAll(ThtrEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_3_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+/**
+ * @brief 信号槽，超阈值零处理
+ * @param
+ */
+void MainWindow::on_m_btn_thtoinv_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(ThtoinvEvent)){
+            appEvent->m_eventQueue.append(ThtoinvEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(ThtoinvEvent)){
+            appEvent->m_eventQueue.removeAll(ThtoinvEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_4_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+/**
+ * @brief 信号槽，低阈值零处理
+ * @param
+ */
+void MainWindow::on_m_btn_thto_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(ThtoEvent)){
+            appEvent->m_eventQueue.append(ThtoEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(ThtoEvent)){
+            appEvent->m_eventQueue.removeAll(ThtoEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_5_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+
+/**
+ * @brief 信号槽，自适应阈值处理(二值)
+ * @param
+ */
+void MainWindow::on_m_btn_adTh_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(adThEvent)){
+            appEvent->m_eventQueue.append(adThEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(adThEvent)){
+            appEvent->m_eventQueue.removeAll(adThEvent);
+        }
+    }
+}
+
+
+
+/**
+ * @brief 信号槽，均值滤波
+ * @param
+ */
+void MainWindow::on_m_btn_avblur_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(avblEvent)){
+            appEvent->m_eventQueue.append(avblEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(avblEvent)){
+            appEvent->m_eventQueue.removeAll(avblEvent);
+        }
+    }
+}
+
+/**
+ * @brief 信号槽，方框滤波
+ * @param
+ */
+void MainWindow::on_m_btn_bofil_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(bofilEvent)){
+            appEvent->m_eventQueue.append(bofilEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(bofilEvent)){
+            appEvent->m_eventQueue.removeAll(bofilEvent);
+        }
+    }
+}
+
+/**
+ * @brief 信号槽，高斯滤波
+ * @param
+ */
+void MainWindow::on_m_btn_gabl_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(gablEvent)){
+            appEvent->m_eventQueue.append(gablEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(gablEvent)){
+            appEvent->m_eventQueue.removeAll(gablEvent);
+        }
+    }
+}
+
+
+/**
+ * @brief 信号槽，中值滤波
+ * @param
+ */
+void MainWindow::on_m_btn_mebl_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(meblEvent)){
+            appEvent->m_eventQueue.append(meblEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(meblEvent)){
+            appEvent->m_eventQueue.removeAll(meblEvent);
+        }
+    }
+}
+
+
+/**
+ * @brief 信号槽，双边滤波
+ * @param
+ */
+void MainWindow::on_m_btn_bifi_clicked(bool checked)
+{
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(bifiEvent)){
+            appEvent->m_eventQueue.append(bifiEvent);
+        }
+    } else {
+        if(appEvent->m_eventQueue.contains(bifiEvent)){
+            appEvent->m_eventQueue.removeAll(bifiEvent);
+        }
+    }
+}
+void MainWindow::on_horizontalSlider_6_valueChanged(int value)
+{
+    appEvent->m_val = value;
+}
+
+
+/**
+ * @brief 信号槽，2D卷积
+ * @param
+ */
+void MainWindow::on_m_btn_2Dfi_clicked(bool checked)
+{
+    appEvent->m_kernel = QString();
+    if (checked) {
+        if(!appEvent->m_eventQueue.contains(tDfiEvent)){
+            appEvent->m_eventQueue.append(tDfiEvent);
+        }
+//        if(ui->com_juanjisuanzi->text()=="lapulasi"){
+            appEvent->m_kernel = "lapulasi";
+//        }
+    } else {
+        if(appEvent->m_eventQueue.contains(tDfiEvent)){
+            appEvent->m_eventQueue.removeAll(tDfiEvent);
+        }
+    }
+}
+
+
+
+/**
  * @brief 析构函数，结束程序时
  * @param
  */
@@ -166,6 +506,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+
+
+
+
 
 
 
