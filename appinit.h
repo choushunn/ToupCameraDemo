@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QMediaDevices>
 #include <QCamera>
-#include<QScreen>
 #include "ui_mainwindow.h"
 #include "cusbcamera.h"
 #include "ctoupcamera.h"
@@ -22,6 +21,30 @@ public:
     explicit AppInit(Ui::MainWindow *ui);
     CUSBCamera*     webCamera  = nullptr;
     CToupCamera*    toupCamera = nullptr;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 private:
     Ui::MainWindow       *mainwindowUi;

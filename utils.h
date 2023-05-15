@@ -15,6 +15,8 @@
 #include <opencv2/imgproc.hpp>
 //OpenCV 视频接口模块
 #include <opencv2/videoio.hpp>
+//OpenCV 图像视频I/O模块
+#include <opencv2/highgui.hpp>
 
 
 class Utils : public QObject

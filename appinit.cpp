@@ -18,7 +18,6 @@ AppInit::AppInit()
     //    启动日志输出类用来启动日志服务。
     //    启动运行时间记录类用来记录每次软件运行开始时间和结束时间。
     //    关联全局事件过滤器处理自定义无边框UI拖动、全局按键处理等。
-
 }
 
 /**
@@ -54,7 +53,6 @@ AppInit::AppInit(Ui::MainWindow *ui)
 
     });
 
-
 }
 
 /**
@@ -63,14 +61,8 @@ AppInit::AppInit(Ui::MainWindow *ui)
  */
 void AppInit::initMainWindowUI()
 {
-    QScreen* screen = QGuiApplication::primaryScreen();  //获取主屏幕
-    QRect rect1 = screen->geometry();
-    qDebug() << "当前屏幕分辨率为：" << rect1.size().width() << rect1.size().height();
-    //todo:根据屏幕设置窗口大小不生效
-    this->resize(rect1.size().width()*0.1,rect1.size().height()*0.1);
     qDebug() << "AppInit:UI初始化完成.";
 }
-
 
 /**
  * @brief USB摄像头初始化
@@ -143,6 +135,17 @@ void AppInit::initToupCamera()
     }
     qDebug() << "AppInit:Toup摄像头初始化完成." << "检测到"<< toupCamCount << "个Toup摄像头.";
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
