@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
-    <height>554</height>
+    <width>1102</width>
+    <height>786</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -334,15 +334,15 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="tab_21">
           <attribute name="title">
-           <string> 图像预处理</string>
+           <string> 颜色变换</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pushButton_5">
+           <item row="1" column="0">
+            <widget class="QPushButton" name="m_btn_Bchannel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -350,12 +350,31 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>灰度均衡</string>
+              <string>蓝色通道</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QPushButton" name="m_btn_Rchannel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>红色通道</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="0" column="4">
-            <widget class="QPushButton" name="pushButton_19">
+            <widget class="QPushButton" name="m_btn_hsvpro">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -363,12 +382,15 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>直方图检测</string>
+              <string>HSV处理</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_14">
+           <item row="1" column="2">
+            <widget class="QPushButton" name="m_btn_Gchannel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -376,20 +398,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>中值滤波</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="gray_process">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>灰度处理</string>
+              <string>绿色通道</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -428,8 +437,8 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="m_btn_hflip">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="m_btn_graypro">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -437,41 +446,155 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>水平翻转</string>
+              <string>灰度处理</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QPushButton" name="pushButton_7">
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
+           <string>阈值处理1</string>
+          </attribute>
+          <widget class="QPushButton" name="m_btn_binarythre">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>二值化</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QSlider" name="horizontalSlider_binarythre">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>50</y>
+             <width>160</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximum">
+            <number>255</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_binarythre_inv">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>反二值化</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QSlider" name="horizontalSlider__binarythre_inv">
+           <property name="geometry">
+            <rect>
+             <x>170</x>
+             <y>50</y>
+             <width>160</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="maximum">
+            <number>255</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_thtr">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>截断化</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QSlider" name="horizontalSlider_thtr">
+           <property name="geometry">
+            <rect>
+             <x>340</x>
+             <y>50</y>
+             <width>160</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="maximum">
+            <number>255</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_22">
+          <attribute name="title">
+           <string>阈值处理2</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="2" column="0">
+            <widget class="QSlider" name="horizontalSlider_thtoinv">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>Laplace锐化</string>
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="1" column="3">
-            <widget class="QPushButton" name="pushButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+           <item row="2" column="2">
+            <widget class="QSlider" name="horizontalSlider_thto">
+             <property name="maximum">
+              <number>255</number>
              </property>
-             <property name="text">
-              <string>Garbor滤波</string>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="1" column="4">
-            <widget class="QPushButton" name="pushButton_6">
+           <item row="0" column="3">
+            <widget class="QPushButton" name="m_btn_adTh">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -479,12 +602,15 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>梯度锐化</string>
+              <string>自适应(二值)</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="1" column="5">
-            <widget class="QPushButton" name="pushButton_38">
+           <item row="0" column="2">
+            <widget class="QPushButton" name="m_btn_thto">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -492,12 +618,15 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>椒盐噪声</string>
+              <string>低零</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="0" column="5">
-            <widget class="QPushButton" name="pushButton_39">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="m_btn_thtoinv">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -505,174 +634,151 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>高斯噪声</string>
+              <string>超零</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_22">
+         <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>噪声</string>
+           <string>平滑处理1</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="0" column="4">
-            <widget class="QPushButton" name="pushButton_43">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>阈值分割</string>
-             </property>
-            </widget>
+          <widget class="QPushButton" name="m_btn_avblur">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>均值滤波</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_bofil">
+           <property name="geometry">
+            <rect>
+             <x>170</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>方框滤波</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_gabl">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>高斯滤波</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_mebl">
+           <property name="geometry">
+            <rect>
+             <x>430</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>中值滤波</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>平滑处理2</string>
+          </attribute>
+          <widget class="QPushButton" name="m_btn_bifi">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>双边滤波</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QSlider" name="horizontalSlider_bifi">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>50</y>
+             <width>160</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="maximum">
+            <number>255</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="m_btn_2Dfi">
+           <property name="geometry">
+            <rect>
+             <x>230</x>
+             <y>10</y>
+             <width>93</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>2D卷积</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="com_juanjisuanzi">
+           <property name="geometry">
+            <rect>
+             <x>340</x>
+             <y>10</y>
+             <width>82</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>lapulasi</string>
+            </property>
            </item>
-           <item row="3" column="3">
-            <widget class="QPushButton" name="pushButton_45">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Kittler</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="5">
-            <widget class="QPushButton" name="pushButton_53">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Krisch</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_26">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Prewitt</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_25">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Laplace</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QPushButton" name="pushButton_23">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Roberts</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QPushButton" name="pushButton_29">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>透视变换</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="5">
-            <widget class="QPushButton" name="pushButton_44">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>OSTU</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QPushButton" name="pushButton_46">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>帧间差分</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="4">
-            <widget class="QPushButton" name="pushButton_27">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Canny</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="pushButton_24">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Sobel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QPushButton" name="pushButton_47">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>高斯混合背景</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -686,8 +792,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>856</width>
-     <height>17</height>
+     <width>1102</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
