@@ -487,9 +487,9 @@ void MainWindow::on_m_btn_2Dfi_clicked(bool checked)
         if(!appEvent->m_eventQueue.contains(tDfiEvent)){
             appEvent->m_eventQueue.append(tDfiEvent);
         }
-//        if(ui->com_juanjisuanzi->text()=="lapulasi"){
-            appEvent->m_kernel = "lapulasi";
-//        }
+        //        if(ui->com_juanjisuanzi->text()=="lapulasi"){
+        appEvent->m_kernel = "lapulasi";
+        //        }
     } else {
         if(appEvent->m_eventQueue.contains(tDfiEvent)){
             appEvent->m_eventQueue.removeAll(tDfiEvent);
@@ -521,5 +521,17 @@ MainWindow::~MainWindow()
 void MainWindow::on_exit_action_triggered()
 {
     QApplication::quit();
+}
+
+/**
+ * @brief 打开新窗口
+ * @param
+ */
+void MainWindow::on_pushButton_clicked()
+{
+    //    创建一个窗口对象
+    Dialog dialog(this);
+    //    调用显示窗口的函数
+    dialog.exec();
 }
 

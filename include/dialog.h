@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::Dialog *ui;
+
+private slots:
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
 };
 
 #endif // DIALOG_H
