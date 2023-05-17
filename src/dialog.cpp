@@ -29,3 +29,15 @@ Dialog::~Dialog()
     delete ui;
 }
 
+
+void Dialog::on_dial_valueChanged(int value)
+{
+    ui->lcdNumber->display(value);
+}
+
+
+void Dialog::on_horizontalSlider_valueChanged(int value)
+{
+    ui->progressBar->setValue(value);
+}
+

@@ -3,6 +3,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QMessageBox>
 #include "qtimer.h"
 #include "appinit.h"
 #include "appevent.h"
@@ -37,7 +39,7 @@ private slots:
     void on_m_btn_hflip_clicked(bool checked);
     void on_m_btn_Hist_clicked(bool checked);
     void on_m_btn_rgbHist_clicked(bool checked);
-//    void on_m_btn_AWF_clicked(bool checked);
+    //    void on_m_btn_AWF_clicked(bool checked);
     void on_m_btn_hsvpro_clicked(bool checked);
     void on_m_btn_Bchannel_clicked(bool checked);
     void on_m_btn_binarythre_clicked(bool checked);
@@ -57,7 +59,7 @@ private slots:
 
 
 
-//滑动条
+    //滑动条
     void on_horizontalSlider_binarythre_valueChanged(int value);
     void on_horizontalSlider_binarythre_inv_valueChanged(int value);
     void on_horizontalSlider_thtr_valueChanged(int value);
@@ -66,5 +68,7 @@ private slots:
     void on_horizontalSlider_bifi_valueChanged(int value);
     void on_exit_action_triggered();
     void on_pushButton_clicked();
+    void on_action_2_triggered();
+    void on_action_7_triggered();
 };
 #endif // MAINWINDOW_H

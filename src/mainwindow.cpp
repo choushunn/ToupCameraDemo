@@ -520,7 +520,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_exit_action_triggered()
 {
-    QApplication::quit();
+    int ret = QMessageBox::warning(this, "退出", "是否退出程序", QMessageBox::Ok, QMessageBox::Cancel);
+    switch(ret)
+    {
+    case QMessageBox::Ok:
+        qDebug() <<"退出程序";
+        QApplication::quit();
+        break;
+    case QMessageBox::Cancel:
+        qDebug() <<"取消退出程序";
+        break;
+    default:
+        break;
+    }
+
+
 }
 
 /**
@@ -533,5 +547,25 @@ void MainWindow::on_pushButton_clicked()
     Dialog dialog(this);
     //    调用显示窗口的函数
     dialog.exec();
+}
+
+
+void MainWindow::on_action_2_triggered()
+{
+    QString path = QDir::currentPath();
+    QString fileName = QFileDialog::getOpenFileName(this, "选择一个文件", path,  "图像文件 (*.jpg *.png *.bmp)");
+
+    // 如果选择了文件，则加载图像文件并显示在标签控件中
+    if (!fileName.isEmpty())
+    {
+        QPixmap pixmap(fileName);
+        ui->m_lbl_display1->setPixmap(pixmap);
+    }
+}
+
+
+void MainWindow::on_action_7_triggered()
+{
+     QMessageBox::about(this, "关于", "作者: Spring.");
 }
 

@@ -21,6 +21,8 @@ private:
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
+    void on_dial_valueChanged(int value);
+    void on_horizontalSlider_valueChanged(int value);
 };
 
 #endif // DIALOG_H
