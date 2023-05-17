@@ -517,3 +517,9 @@ MainWindow::~MainWindow()
 
 
 
+
+void MainWindow::on_exit_action_triggered()
+{
+    QApplication::quit();
+}
+
