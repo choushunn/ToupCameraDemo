@@ -273,7 +273,8 @@ void MainWindow::on_m_btn_binarythre_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_valueChanged(int value)
+
+void MainWindow::on_horizontalSlider_binarythre_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -295,7 +296,7 @@ void MainWindow::on_m_btn_binarythre_inv_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+void MainWindow::on_horizontalSlider_binarythre_inv_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -316,7 +317,7 @@ void MainWindow::on_m_btn_thtr_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_3_valueChanged(int value)
+void MainWindow::on_horizontalSlider_thtr_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -337,7 +338,7 @@ void MainWindow::on_m_btn_thtoinv_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_4_valueChanged(int value)
+void MainWindow::on_horizontalSlider_thtoinv_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -358,7 +359,7 @@ void MainWindow::on_m_btn_thto_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_5_valueChanged(int value)
+void MainWindow::on_horizontalSlider_thto_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -469,7 +470,7 @@ void MainWindow::on_m_btn_bifi_clicked(bool checked)
         }
     }
 }
-void MainWindow::on_horizontalSlider_6_valueChanged(int value)
+void MainWindow::on_horizontalSlider_bifi_valueChanged(int value)
 {
     appEvent->m_val = value;
 }
@@ -515,4 +516,10 @@ MainWindow::~MainWindow()
 
 
 
+
+
+void MainWindow::on_exit_action_triggered()
+{
+    QApplication::quit();
+}
 

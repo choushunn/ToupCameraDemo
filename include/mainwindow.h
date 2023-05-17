@@ -57,11 +57,12 @@ private slots:
 
 
 //滑动条
-    void on_horizontalSlider_valueChanged(int value);
-    void on_horizontalSlider_2_valueChanged(int value);
-    void on_horizontalSlider_3_valueChanged(int value);
-    void on_horizontalSlider_4_valueChanged(int value);
-    void on_horizontalSlider_5_valueChanged(int value);
-    void on_horizontalSlider_6_valueChanged(int value);
+    void on_horizontalSlider_binarythre_valueChanged(int value);
+    void on_horizontalSlider_binarythre_inv_valueChanged(int value);
+    void on_horizontalSlider_thtr_valueChanged(int value);
+    void on_horizontalSlider_thtoinv_valueChanged(int value);
+    void on_horizontalSlider_thto_valueChanged(int value);
+    void on_horizontalSlider_bifi_valueChanged(int value);
+    void on_exit_action_triggered();
 };
 #endif // MAINWINDOW_H

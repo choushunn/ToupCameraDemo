@@ -7,7 +7,7 @@ message(STATUS "current architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 #配置库文件路径
 if(WIN32)
-    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\qt\\runtime")
+    set(THIRD_PARTY_LIB_PATH "E:\\runtime")
 #    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\qt\\runtime")
 else()
     set(THIRD_PARTY_LIB_PATH "/home/mc/Projects/runtime")
@@ -48,25 +48,28 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)
 
-set(TS_FILES ${PROJECT_NAME}_zh_CN.ts)
+# 设置头文件目录为include文件夹
+include_directories(include)
+
+# 设置自动生成的ui头文件的输出路径为include目录
+set(CMAKE_AUTOUIC_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# 设置ui文件搜索路径
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/ui)
+
+#匹配寻找头文件
+FILE(GLOB_RECURSE HEADER_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
+#匹配寻找源文件
+FILE(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+#匹配寻找UI文件
+FILE(GLOB_RECURSE UI_FILES "${PROJECT_SOURCE_DIR}/ui/*.ui")
+set(TS_FILES "translations/${PROJECT_NAME}_zh_CN.ts")
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        ctoupcamera.cpp
-        ctoupcamera.h
-        cusbcamera.cpp
-        cusbcamera.h
-        appinit.cpp
-        appinit.h
-        appevent.cpp
-        appevent.h
+        ${HEADER_FILES}
+        ${SRC_FILES}
         ${TS_FILES}
-        utils.cpp utils.h
-
-)
+        ${UI_FILES}
+    )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME}

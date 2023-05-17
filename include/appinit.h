@@ -25,27 +25,6 @@ public:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 private:
     Ui::MainWindow       *mainwindowUi;
     QList<QCameraDevice> m_cameraList;
