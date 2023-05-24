@@ -30,15 +30,15 @@ endif()
 #设置ToupCam_DIR和ToupCamConfig
 set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam")
 #ncnn
-set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
+#set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
 
 #导入第三方库
 find_package(OpenCV REQUIRED)
 find_package(ToupCam REQUIRED)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    find_package(ncnn REQUIRED)
-    include_directories("${THIRD_PARTY_LIB_PATH}/ncnn/x64/include")
+#    find_package(ncnn REQUIRED)
+#    include_directories("${THIRD_PARTY_LIB_PATH}/ncnn/x64/include")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 #    find_package(OnnxRuntime REQUIRED)
 endif()
@@ -100,7 +100,7 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Multimedia)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+#target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
 #链接第三方库
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${ToupCam_LIBS})
