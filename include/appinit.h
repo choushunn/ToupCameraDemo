@@ -22,9 +22,6 @@ public:
     CUSBCamera*     webCamera  = nullptr;
     CToupCamera*    toupCamera = nullptr;
 
-
-
-
 private:
     Ui::MainWindow       *mainwindowUi;
     QList<QCameraDevice> m_cameraList;
