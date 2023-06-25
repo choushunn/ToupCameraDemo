@@ -4,9 +4,9 @@
 #include <QMainWindow>
 #include <QMediaDevices>
 #include <QCamera>
+#include <toupcam.h>
 #include "ui_mainwindow.h"
-#include "cusbcamera.h"
-#include "ctoupcamera.h"
+#include "ccamera.h"
 #include "utils.h"
 
 namespace Ui{
@@ -19,18 +19,17 @@ class AppInit : public QMainWindow
 public:
     AppInit();
     explicit AppInit(Ui::MainWindow *ui);
-    CUSBCamera*     webCamera  = nullptr;
-    CToupCamera*    toupCamera = nullptr;
-
+    CCamera* camera = nullptr;
 private:
     Ui::MainWindow       *mainwindowUi;
     QList<QCameraDevice> m_cameraList;
-    int m_cameraIndex;
+    int m_cameraIndex = 0;
+    std::string camera_type = "USB";
 
 private:
     void initMainWindowUI();
     void initCamera();
-    void initToupCamera();
+
 };
 
 #endif // APPINIT_H

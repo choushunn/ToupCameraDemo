@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "qtimer.h"
+#include <QTimer.h>
 #include "appinit.h"
 #include "appevent.h"
 #include "dialog.h"
@@ -34,7 +34,7 @@ private:
 
 private slots:
     void on_m_btn_open_camera_clicked(bool checked);
-    void showFrame(QImage image1, QImage image2);
+    void showFrame(cv::Mat frame);
     void on_m_btn_graypro_clicked(bool checked);
     void on_m_btn_hflip_clicked(bool checked);
     void on_m_btn_Hist_clicked(bool checked);
@@ -57,7 +57,7 @@ private slots:
     void on_m_btn_bifi_clicked(bool checked);
     void on_m_btn_2Dfi_clicked(bool checked);
 
-
+    void readFrame() ;
 
     //滑动条
     void on_horizontalSlider_binarythre_valueChanged(int value);

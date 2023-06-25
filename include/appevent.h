@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <qdebug.h>
-#include "qcoreevent.h"
+#include <qcoreevent.h>
 #include "utils.h"
-#include "QString"
+#include <QString.h>
 
 // 自定义事件类型
 enum MyEventType {
@@ -58,7 +58,7 @@ public:
 
 
 public slots:
-    void processFrame(cv::Mat frame);
+    void processFrame(cv::Mat& frame);
 
 signals:
     void sendProcessFrame(QImage image, QImage image2);
