@@ -9,6 +9,7 @@
 #include "appinit.h"
 #include "appevent.h"
 #include "dialog.h"
+#include "ImageProcessor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,12 +32,17 @@ private:
     QTimer*     m_timer = nullptr;
     int         fps = 30;
     void onTimer();
-
+    ImageProcessor processor;
+    FlipHorizontallyHandler* hflip= new FlipHorizontallyHandler;
+    FlipVerticallyHandler* vflip = new FlipVerticallyHandler;
+    RotateHandler* thr = new RotateHandler;
+    BGR2RGBHandler* bgr2rgb = new BGR2RGBHandler;
+    ColorAdjustHandler* cah  = new ColorAdjustHandler;
 private slots:
     void on_m_btn_open_camera_clicked(bool checked);
     void showFrame(cv::Mat frame);
     void on_m_btn_graypro_clicked(bool checked);
-    void on_m_btn_hflip_clicked(bool checked);
+
     void on_m_btn_Hist_clicked(bool checked);
     void on_m_btn_rgbHist_clicked(bool checked);
     //    void on_m_btn_AWF_clicked(bool checked);
@@ -56,7 +62,6 @@ private slots:
     void on_m_btn_mebl_clicked(bool checked);
     void on_m_btn_bifi_clicked(bool checked);
     void on_m_btn_2Dfi_clicked(bool checked);
-
     void readFrame() ;
 
     //滑动条
@@ -70,5 +75,15 @@ private slots:
     void on_pushButton_clicked();
     void on_action_2_triggered();
     void on_action_7_triggered();
+    void on_pushButton_5_clicked(bool checked);
+    void on_horizontalSlider_7_valueChanged(int value);
+    void on_checkBox_2_stateChanged(int arg1);
+    void on_checkBox_3_stateChanged(int arg1);
+    void on_pushButton_6_clicked(bool checked);
+    void on_pushButton_7_clicked(bool checked);
+    void on_horizontalSlider_4_valueChanged(int value);
+    void on_horizontalSlider_5_valueChanged(int value);
+    void on_horizontalSlider_6_valueChanged(int value);
+    void on_pushButton_7_clicked();
 };
 #endif // MAINWINDOW_H

@@ -49,37 +49,6 @@ AppInit::AppInit(Ui::MainWindow *ui)
     initMainWindowUI();
     //摄像头初始化
     initCamera();
-    //相机类型切换检测
-    connect(mainwindowUi->m_cbx_camera_list,
-            QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, [this](int index)
-            {
-#ifdef _WIN32
-                m_cameraIndex = index;
-#else
-            if(mainwindowUi->m_cbx_camera_type->currentText() == "USB"){
-                QByteArray dev_name = m_cameraList[index].id();
-                m_cameraIndex = findCameraIndex(dev_name);
-
-            }else{
-                m_cameraIndex = index;
-            }
-#endif
-                camera = CCamera::createInstance(
-                    camera_type,
-                    m_cameraIndex);
-                qDebug() << "AppInit:camera index changed:" << m_cameraIndex;
-            });
-
-    connect(mainwindowUi->m_cbx_camera_type, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
-            {
-                qDebug() << "AppInit:camera type changed:" << mainwindowUi->m_cbx_camera_type->currentText();
-                camera_type = mainwindowUi->m_cbx_camera_type->currentText().toStdString();
-                initCamera();
-            });
-
-
-
 }
 
 /**
@@ -90,6 +59,8 @@ void AppInit::initMainWindowUI()
 {
     qDebug() << "AppInit:UI初始化完成.";
 }
+
+
 /**
  * @brief 获取可用相机列表
  * @param
@@ -122,25 +93,64 @@ void getCameraList(std::vector<std::string> &camera_list,std::string& camera_typ
  */
 void AppInit::initCamera()
 {
+    //相机类型切换检测
+    connect(mainwindowUi->m_cbx_camera_list,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, [this](int index)
+            {
+#ifdef _WIN32
+                m_cameraIndex = index;
+#else
+            if(mainwindowUi->m_cbx_camera_type->currentText() == "USB"){
+                QByteArray dev_name = m_cameraList[index].id();
+                m_cameraIndex = findCameraIndex(dev_name);
+
+            }else{
+                m_cameraIndex = index;
+            }
+#endif
+                camera = CCamera::createInstance(
+                    camera_type,
+                    m_cameraIndex);
+                qDebug() << "AppInit:camera index changed:" << m_cameraIndex;
+            });
+
+    connect(mainwindowUi->m_cbx_camera_type,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, [this](int index)            {
+                qDebug() << "AppInit:camera type changed:" << mainwindowUi->m_cbx_camera_type->currentText();
+                camera_type = mainwindowUi->m_cbx_camera_type->currentText().toStdString();
+                initCamera();
+            });
+
+
     mainwindowUi->m_cbx_camera_list->clear();
-    camera_type = mainwindowUi->m_cbx_camera_type->currentText().toStdString();
+    camera_type = mainwindowUi->m_cbx_camera_type->currentText().toStdString();    
+
     // 读取相机列表
     std::vector <std::string> camera_list;
     getCameraList(camera_list, camera_type);
+
+
     if(camera_list.empty()){
         mainwindowUi->m_cbx_camera_list->setEditable(true);
         mainwindowUi->m_cbx_camera_list->setCurrentText("未检测到相机");
         mainwindowUi->m_cbx_camera_list->setDisabled(true);
         mainwindowUi->m_btn_open_camera->setDisabled(true);
+
         qDebug() << "AppInit:相机初始化失败." << "检测到"<< 0 << "个相机";
         return;
     }else{
+
         mainwindowUi->m_cbx_camera_list->setEditable(false);
         mainwindowUi->m_cbx_camera_list->setDisabled(false);
         mainwindowUi->m_btn_open_camera->setDisabled(false);
+
         for (const std::string &camera: camera_list) {
             mainwindowUi->m_cbx_camera_list->addItem(camera.c_str());
         }
+
+
         if(camera_type=="USB"){
 #ifdef _WIN32
             m_cameraIndex = mainwindowUi->m_cbx_camera_list->currentIndex();
@@ -154,13 +164,14 @@ void AppInit::initCamera()
         }
 
 
-        // 加载TOUP相机
+        // 加载相机
         camera = CCamera::createInstance(camera_type, m_cameraIndex);
         qDebug() << "AppInit:相机初始化完成." << "检测到"<< camera_list.capacity() << "个摄像头.";
-                                   if(camera == nullptr){
+
+
+        if(camera == nullptr){
             qDebug() << "AppInit:相机初始化失败";
         }
-        //        m_cthread->setCamera(camera);
     }
 }
 
