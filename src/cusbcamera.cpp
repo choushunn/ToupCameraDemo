@@ -1,9 +1,16 @@
 #include "cusbcamera.h"
 
+#include <QCameraDevice>
+#include <QMediaDevices>
+
 /**
  * @brief CUSBCamera 构造函数
  * @param
  */
+CUSBCamera::CUSBCamera()
+{
+
+}
 CUSBCamera::CUSBCamera(int index)
     :m_index(index)
 {
@@ -20,12 +27,16 @@ bool CUSBCamera::isOpened() const {
     return m_capture.isOpened();
 }
 
-int CUSBCamera::open() {
+int CUSBCamera::open(){
+    return 0;
+}
+
+int CUSBCamera::open(int index) {
 
     // 打开
-    if (!isOpened()) {
-        m_capture.open(m_index);
-        qDebug() <<"CUSBCamera:打开成功！";
+    if (!isOpened()&&m_capture.open(index)) {
+        qDebug() <<"CUSBCamera:打开成功！" << index;
+        return 200;
     }
     return isOpened();
 }
@@ -43,6 +54,15 @@ bool CUSBCamera::read(cv::Mat& frame) {
         return m_capture.read(frame);
     }
     return false;
+}
+
+void CUSBCamera::getCameraList(std::vector<std::string> &camera_list)
+{
+    // 获取USB相机列表
+    QList<QCameraDevice> cameraList = QMediaDevices::videoInputs();
+    for (const QCameraDevice &cameraDevice : cameraList) {
+        camera_list.push_back(cameraDevice.description().toStdString());
+    }
 }
 
 

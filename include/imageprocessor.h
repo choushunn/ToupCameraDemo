@@ -9,6 +9,7 @@ public:
     ImageHandler(ImageHandler *next = nullptr) : m_next(next) {}
     // 虚析构函数，确保正确释放内存
     virtual ~ImageHandler() {}
+
     // 处理函数，纯虚函数，需要子类实现具体的处理逻辑
     virtual void process(cv::Mat &image) {
         // 如果存在下一个处理器，就继续处理
@@ -16,6 +17,7 @@ public:
             m_next->process(image);
         }
     }
+
     // 获取下一个处理器的指针
     ImageHandler *getNext() const {
         return m_next;
@@ -46,6 +48,7 @@ public:
     void clearHandlers();
     // 处理图像，将其传递给责任链中的每个处理器
     void process(cv::Mat &image);
+
     void setVFlip();
 private:
     // 指向责任链头部的指针
@@ -69,8 +72,6 @@ public:
 
 
 
-
-
 // 旋转处理器
 class RotateHandler : public ImageHandler {
 public:
@@ -80,6 +81,7 @@ public:
 private:
     double m_angle;
 };
+
 
 class ImageHandlerFactory {
 public:

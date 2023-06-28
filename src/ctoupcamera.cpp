@@ -5,8 +5,14 @@
  * @brief CToupCamera 构造函数
  * @param
  */
-CToupCamera::CToupCamera(int index)
-        : m_index(index) {
+
+CToupCamera::CToupCamera()
+{
+    Toupcam_EnumV2(m_arr);
+}
+
+CToupCamera::CToupCamera(int index):m_index(index)
+{
     Toupcam_EnumV2(m_arr);
 }
 
@@ -24,15 +30,18 @@ bool CToupCamera::isOpened() const {
     }
 }
 
+int CToupCamera::open(){
+    return 0;
+}
 
-int CToupCamera::open() {
+int CToupCamera::open(int index) {
     // 打开
     if (!isOpened()) {
-        m_hcam = Toupcam_Open(m_arr[m_index].id);
+        m_hcam = Toupcam_Open(m_arr[index].id);
         if (m_hcam) {
             Toupcam_get_eSize(m_hcam, (unsigned *) &m_res);
-            m_imgWidth = m_arr[m_index].model->res[m_res].width;
-            m_imgHeight = m_arr[m_index].model->res[m_res].height;
+            m_imgWidth = m_arr[index].model->res[m_res].width;
+            m_imgHeight = m_arr[index].model->res[m_res].height;
             //初始化Toup设置
             //1:BGR,2:RGB,Qimage use RGB byte order
             Toupcam_put_Option(m_hcam, TOUPCAM_OPTION_BYTEORDER, 0);
@@ -89,6 +98,19 @@ bool CToupCamera::read(cv::Mat &frame) {
         qDebug() << "CToupCam:读取图像失败。" << FAILED(hr);
     }
     return false;
+}
+
+void CToupCamera::getCameraList(std::vector<std::string> &camera_list)
+{
+    int toupCamCount = Toupcam_EnumV2(m_arr);
+    for (int i = 0; i < toupCamCount; ++i) {
+    qDebug() << m_arr[i].id << m_arr[i].displayname;
+#ifdef _WIN32
+        camera_list.push_back(QString::fromWCharArray(m_arr[i].displayname).toStdString());
+#else
+        camera_list.push_back(m_arr[i].displayname);
+#endif
+    }
 }
 
 /**

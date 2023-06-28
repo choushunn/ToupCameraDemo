@@ -2,23 +2,25 @@
 #include "ctoupcamera.h"
 #include "cusbcamera.h"
 
+#include <QString>
+
 CCamera::CCamera()
 {
 
 }
 
-CCamera* CCamera::createInstance(const std::string type, const int index) {
+CCamera* CCamera::createInstance(const std::string type) {
 
     if (type == "USB") {
-        qDebug() << "创建摄像头 USB"<< &type << index;
-        return new CUSBCamera(index);
+        qDebug() << "CCamera:创建USB相机成功"<< QString::fromStdString(type);
+        return new CUSBCamera();
 
     } else if (type == "TOUP") {
-        qDebug() << "创建摄像头 TOUP"<< &type << index;
-        return new CToupCamera(index);
+        qDebug() << "CCamera:创建TOUP相机成功"<< QString::fromStdString(type);
+        return new CToupCamera();
 
     } else {
-        qDebug() << "创建摄像头失败"<< &type << index;
+        qDebug() << "CCamera:创建摄像头失败"<< QString::fromStdString(type);
         return nullptr;
     }
 

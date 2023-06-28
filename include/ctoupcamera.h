@@ -11,13 +11,15 @@ class CToupCamera : public CCamera
 {
 
 public:
+    CToupCamera();
     CToupCamera(int index);
     ~CToupCamera();
     bool isOpened() const override;
     int open() override;
+    int open(int index) override;
     void close() override;
     bool read(cv::Mat& frame) override;
-    void getCameraList(std::vector<std::string> &camera_list);
+    void getCameraList(std::vector<std::string> &camera_list) override;
 private:
     int m_index;
     HToupcam        m_hcam =nullptr;
