@@ -1,23 +1,19 @@
 #include "ctoupcamera.h"
 
+//CToupCamera& CToupCamera::getInstance()
+//{
+//    static CToupCamera instance;
 
-/**
- * @brief CToupCamera 构造函数
- * @param
- */
+//    return instance;
+
+//}
 
 CToupCamera::CToupCamera()
 {
     Toupcam_EnumV2(m_arr);
 }
 
-CToupCamera::CToupCamera(int index):m_index(index)
-{
-    Toupcam_EnumV2(m_arr);
-}
-
-CToupCamera::~CToupCamera() {
-    // 析构函数
+CToupCamera::~CToupCamera(){
     close();
 }
 
@@ -31,6 +27,7 @@ bool CToupCamera::isOpened() const {
 }
 
 int CToupCamera::open(){
+    //TODO:未实现
     return 0;
 }
 
@@ -112,6 +109,21 @@ void CToupCamera::getCameraList(std::vector<std::string> &camera_list)
 #endif
     }
 }
+
+void CToupCamera::saveImage()
+{
+    // 保存图像
+    std::vector<uchar> vec(TDIBWIDTHBYTES(m_imgWidth * 24) * m_imgHeight);
+    if (SUCCEEDED(Toupcam_PullStillImageV2(m_hcam, &vec[0], 24, pInfo)))
+    {
+        cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
+        cv::imwrite("save.bmp", image);
+        qDebug() << "save image ";
+//        image.save(QString::asprintf("toupcam_%u.jpg", ++m_count));
+    }
+    qDebug() << "save image ffffff";
+}
+
 
 /**
  * @brief 回调函数

@@ -6,6 +6,19 @@ Utils::Utils(QObject *parent)
 
 }
 
+/**
+ * @brief 将[xmin, xmax]归一化到[a, b]区间
+ * @param value
+ * @return
+ */
+int Normalization(int value) {
+    int ymin = 500;
+    int ymax = 2500;
+    int xmin = 0;
+    int xmax = 270;
+    int y = (ymax - ymin) * (value - xmin) / (xmax - xmin) + ymin;
+    return y;
+}
 
 
 /**

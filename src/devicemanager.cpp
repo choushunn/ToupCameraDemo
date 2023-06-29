@@ -1,61 +1,86 @@
 #include "devicemanager.h"
 #include "qdebug.h"
 
-DeviceManager::DeviceManager(QObject *parent)
-    : QObject{parent}
+/**
+ * @brief 获取 DeviceManager 的全局单例对象
+ *
+ * @return DeviceManager 的全局单例对象
+ */
+DeviceManager& DeviceManager::getInstance()
 {
-    //    initCamera();
+    // DeviceManager全局单例模式
+    static DeviceManager instance;
+    return instance;
 }
 
-void DeviceManager::initCamera(std::string camera_type, int index)
+/**
+ * @brief 构造函数，创建设备工厂对象
+ */
+DeviceManager::DeviceManager()
 {
-    m_camera = CCamera::createInstance(camera_type);
+    // 创建设备工厂对象
+    m_deviceFactory = new DeviceFactory();
 }
 
+/**
+ * @brief 初始化相机
+ *
+ * @param camera_type 相机类型
+ * @param index 相机索引（可选）
+ */
+CCamera* DeviceManager::initCamera(std::string camera_type)
+{
+    // 创建相机对象
+    m_camera = m_deviceFactory->createCamera(camera_type);
+    return m_camera;
+}
 
-
+/**
+ * @brief 初始化串口
+ */
 void DeviceManager::initSerialPort()
 {
-
+    // 创建串口对象
+    m_serialPort = m_deviceFactory->createSerialPort();
 }
 
-void DeviceManager::initWebSocket()
+/**
+ * @brief 初始化 WebSocket
+ */
+CWebSocketServer*  DeviceManager::initWebSocketServer()
 {
-
+    // 创建WebSocket对象
+    m_webSocketServer = m_deviceFactory->createWebSocketServer();
+    return m_webSocketServer;
 }
 
-void DeviceManager::getCameraList(std::vector<std::string> &camera_list)
+/**
+ * @brief 获取相机对象
+ *
+ * @return 相机对象指针
+ */
+CCamera* DeviceManager::getCamera()
 {
-    // 获取相机列表
-    m_camera->getCameraList(camera_list);
+    return m_camera;
 }
 
-bool DeviceManager::openCamera(int index)
+/**
+ * @brief 获取串口对象
+ *
+ * @return 串口对象指针
+ */
+CSerialPort* DeviceManager::getSerialPort()
 {
-    // 打开相机
-    if(m_camera->open(index) == 200){
-        return true;
-    }
-    return false;
+    return m_serialPort;
 }
 
-void DeviceManager::closeCamera()
+/**
+ * @brief 获取 WebSocket 对象
+ *
+ * @return WebSocket 对象指针
+ */
+CWebSocketServer* DeviceManager::getWebSocketServer()
 {
-    // 关闭相机
-    m_camera->close();
+    return m_webSocketServer;
 }
 
-bool DeviceManager::cameraOpened()
-{
-    return m_camera->isOpened();
-}
-
-void DeviceManager::readCamera()
-{
-    cv::Mat frame;
-    m_camera->read(frame);
-    if (!frame.empty()) {
-        emit sendCameraFrame(frame);
-        qDebug() << "DeviceManager:readCamereFrame 成功.";
-    }
-}

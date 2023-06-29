@@ -51,15 +51,7 @@ void AppInit::setGlobalFont()
 void AppInit::setGlobalStyleSheet()
 {
     // 设置全局样式表
-    //系统自带的QStyle风格
-    QStringList listStyle = QStyleFactory::keys();
-    //打印当前系统支持的系统风格
-    foreach(QString val, listStyle){
-        qDebug()<<"AppInit: QStyle" << val;
-        // ui->comboBox_2->addItem(val);
-    }
-    //设置当前风格为
-//    qApp->setStyle(QStyleFactory::create("Fusion"));
+
     qDebug() << "AppInit:全局样式已设置";
 }
 

@@ -2,43 +2,69 @@ cmake_minimum_required(VERSION 3.5)
 
 project(ToupCameraDemo VERSION 0.1 LANGUAGES CXX)
 message(STATUS "Project Name: " ${PROJECT_NAME})
-message(STATUS "current platform: ${CMAKE_SYSTEM_NAME}")
-message(STATUS "current architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+message(STATUS "current platform/architecture: ${CMAKE_SYSTEM_NAME}/${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-#配置库文件路径
-if(WIN32)
-    set(THIRD_PARTY_LIB_PATH "E:\\runtime")
-#    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\qt\\runtime")
-else()
-    set(THIRD_PARTY_LIB_PATH "/home/mc/Projects/runtime")
-endif()
-
+# 自动
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+# C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INSTALL_PREFIX install)
 
+
+#配置库文件路径
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv")
+    set(THIRD_PARTY_LIB_PATH "E:\\runtime")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    #配置OpenCV路径
-    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv/lib/cmake/opencv4")
+    set(THIRD_PARTY_LIB_PATH "/root/runtime")
+else()
+    message(FATAL_ERROR "Unsupported current platform: ${CMAKE_SYSTEM_NAME}")
 endif()
 
-#设置ToupCam_DIR和ToupCamConfig
-set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/win")
+
+# 依赖库
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    # OpenCV
+    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv")
+    #ToupCam_DIR
+    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/win")
+    #ncnn
+    set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
+    #onnxruntime
+    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+        # x86_64版本
+        set(LIB_ARCH x86_64)
+    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+        # arm64版本
+        set(LIB_ARCH aarch64)
+    else()
+        # 不支持的处理器架构
+        message(FATAL_ERROR "Unsupported processor architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+    endif()
+    # 设置OpenCV路径
+    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv/lib/cmake/opencv4")
+    # 设置OnnxRuntime
+    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime-gpu")
+endif()
 
 #导入第三方库
 find_package(OpenCV REQUIRED)
 find_package(ToupCam REQUIRED)
+find_package(ncnn REQUIRED)
+find_package(OnnxRuntime REQUIRED)
 
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS WebSockets)
 
 # 设置头文件目录为include文件夹
 include_directories(include)
@@ -54,6 +80,7 @@ FILE(GLOB_RECURSE HEADER_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
 FILE(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 #匹配寻找UI文件
 FILE(GLOB_RECURSE UI_FILES "${PROJECT_SOURCE_DIR}/ui/*.ui")
+#翻译文件
 set(TS_FILES "translations/${PROJECT_NAME}_zh_CN.ts")
 
 set(PROJECT_SOURCES
@@ -62,6 +89,7 @@ set(PROJECT_SOURCES
         ${TS_FILES}
         ${UI_FILES}
     )
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME}
@@ -90,12 +118,22 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+
+# 拷贝models文件夹到build目录下
+file(COPY ${CMAKE_SOURCE_DIR}/models DESTINATION ${CMAKE_BINARY_DIR})
+
+#链接Qt库
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::SerialPort)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::WebSockets)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Multimedia)
-#target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+
 #链接第三方库
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ncnn)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
 
 # 添加预处理定义，防止冲突
 add_compile_definitions(NOMINMAX)
@@ -108,9 +146,19 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# install target and libraries
 install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION bin
+    PUBLIC_HEADER DESTINATION include
+)
+
+
+# 复制models文件夹到安装目录下
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/models DESTINATION ${CMAKE_INSTALL_PREFIX})
+
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(${PROJECT_NAME})

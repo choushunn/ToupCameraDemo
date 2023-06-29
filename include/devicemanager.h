@@ -5,52 +5,57 @@
  * 负责管理系统中的各种设备，包括相机、串口、WebSocket等，提供设备初始化、打开、关闭、读取数据等接口，为其他模块提供设备服务。
  */
 
-#include <QObject>
 #include <ccamera.h>
-//#include <QSerialPort>
-//#include <QWebSocket>
+#include "cserialport.h"
+#include "cwebsocketserver.h"
 
-class DeviceManager : public QObject
+class DeviceFactory
 {
-    Q_OBJECT
 public:
-    explicit DeviceManager(QObject *parent = nullptr);
+    CCamera* createCamera(std::string camera_type)
+    {
+        // 根据相机类型和索引创建相机对象
+        return CCamera::getInstance(camera_type);
+    }
+
+    CSerialPort* createSerialPort(QObject* parent = nullptr)
+    {
+        // 创建串口对象
+        return new CSerialPort(parent);
+    }
+
+    CWebSocketServer* createWebSocketServer(QObject* parent = nullptr)
+    {
+        // 创建WebSocket对象
+        return new CWebSocketServer(parent);
+    }
+};
+
+class DeviceManager
+{
+public:
+    static DeviceManager& getInstance();
+    CCamera* getCamera();
+    CSerialPort *getSerialPort();
+    CWebSocketServer* getWebSocketServer();
+    // 成员函数声明
+    CCamera* initCamera(std::string camera_type);
+    void initSerialPort();
+    CWebSocketServer*  initWebSocketServer();
+private:
+    DeviceManager();
+    DeviceManager(const DeviceManager&) = delete;
+    DeviceManager& operator=(const DeviceManager&) = delete;
     ~DeviceManager(){};
 
-    void initCamera(std::string camera_type, int index);
-    void getCameraList(std::vector<std::string> &camera_list);
-    bool openCamera(int index);
-    void closeCamera();
-    bool cameraOpened();
-    void readCamera();
-    void initSerialPort();
-    void initWebSocket();
-
-    void openSerialPort();
-    void openWebSocket();
-
-
-    void closeSerialPort();
-    void closeWebSocket();
-
-    QByteArray readSerialPortData();
-
-
-
-signals:
-    void sendCameraFrame(cv::Mat& frame);
-    // void cameraOpened();
-    void cameraClosed();
-    void serialPortOpened();
-    void serialPortClosed();
-    void webSocketOpened();
-    void webSocketClosed();
-
-private:
-    CCamera* m_camera = nullptr;
-    //    QSerialPort* m_serialPort;
-    //    QWebSocket* m_webSocket;
-
+    // 设备对象成员变量
+    CCamera* m_camera;
+    CSerialPort* m_serialPort;
+    CWebSocketServer* m_webSocketServer;
+    // 设备工厂成员变量
+    DeviceFactory* m_deviceFactory;
 };
+
+
 
 #endif // DEVICEMANAGER_H

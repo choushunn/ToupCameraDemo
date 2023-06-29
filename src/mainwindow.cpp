@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "qstylefactory.h"
 
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    m_readTimer = new QTimer();
+
     setupUI();
     setDefaultValues();
     setDefaultStates();
@@ -21,15 +22,40 @@ MainWindow::~MainWindow() {
 void MainWindow::setupUI()
 {
     // 设置控件的默认值和参数
+    //系统自带的QStyle风格
+    QStringList listStyle = QStyleFactory::keys();
+    //打印当前系统支持的系统风格
+    foreach(QString val, listStyle){
+        qDebug()<<"AppInit: QStyle" << val;
+        ui->comboBox_3->addItem(val);
+    }
+
+    // 设置相机相关
     getCameraList();
+
+    // 设置WebSocketServer相关
+    m_webSocketServer = m_deviceManager.initWebSocketServer();
+    // 获得当前设备所有 IP 地址列表
+    QList<QHostAddress> ipList = m_webSocketServer->getAllIpAddresses();
+
+    // 将 IP 地址列表添加到 ComboBox 控件中
+    for (int i = 0; i < ipList.size(); i++) {
+        const QHostAddress &ip = ipList.at(i);
+        ui->m_ipComboBox->addItem(ip.toString());
+    }
+
+    // 设置ONNX
+    onnx = COnnx::createInstance(model_name, m_isGPU);
 }
 
 void MainWindow::getCameraList(){
     // 读取相机列表
     ui->m_cbx_camera_list->clear();
-    m_deviceManager.initCamera(m_camType, m_camIndex);
+    // 创建并初始化camera对象
+    m_camera = m_deviceManager.initCamera(m_camType);
+    // 获取camera对象
     std::vector <std::string> camera_list;
-    m_deviceManager.getCameraList(camera_list);
+    m_camera->getCameraList(camera_list);
     if(camera_list.empty()){
         ui->m_cbx_camera_list->setEditable(true);
         ui->m_cbx_camera_list->setCurrentText("未检测到相机");
@@ -62,19 +88,27 @@ void MainWindow::getCameraList(){
 void MainWindow::setDefaultValues()
 {
     // 设置默认值
+    m_readTimer = new QTimer();
+
+    // 初始化 JSON 对象
+    m_jsonObj["type"] = "text";
+    m_jsonObj["content"] = "";
 }
+
 
 void MainWindow::setDefaultStates()
 {
     // 设置默认状态
 }
+
+
 void MainWindow::registerEvents()
 {
     // 连接信号和槽，注册事件
     // 注册MainWindow的clicked事件
     m_appEvent.registerReceiver(this, "clicked");
     m_appEvent.registerReceiver(this, "check");
-    m_appEvent.registerReceiver(&m_deviceManager, "sendCameraFrame");
+    m_appEvent.registerReceiver(this, "sendCameraFrame");
 }
 
 void MainWindow::unregisterEvents()
@@ -85,10 +119,23 @@ void MainWindow::unregisterEvents()
 }
 
 void MainWindow::signalSlotConnect(){
-    // 读取
-    connect(m_readTimer, &QTimer::timeout, &m_deviceManager, &DeviceManager::readCamera);
+    // 相机读取图像
+    connect(m_readTimer, &QTimer::timeout, this, &MainWindow::showCameraFrame);
     // 显示
-    connect(&m_deviceManager, &DeviceManager::sendCameraFrame, this, &MainWindow::showCameraFrame);
+
+    // 将 WebSocket 服务器的 textMessageReceived 信号连接到 onWebSocketMessageReceived 槽函数上
+    connect(m_webSocketServer, &CWebSocketServer::textMessageReceived, this, &MainWindow::onWebSocketTextMessageReceived);
+
+
+    // 将 WebSocket 服务器的 binaryMessageReceived 信号连接到 onWebSocketBinaryMessageReceived 槽函数上
+    connect(m_webSocketServer, &CWebSocketServer::binaryMessageReceived, this, &MainWindow::onWebSocketBinaryMessageReceived);
+
+    // 将 WebSocket 服务器的 newConnection 信号连接到 onWebSocketClientConnected 槽函数上
+    connect(m_webSocketServer, &CWebSocketServer::clientConnected, this, &MainWindow::onWebSocketClientConnected);
+
+    // 将 WebSocket 服务器的 clientDisconnected 信号连接到 onWebSocketClientDisconnected 槽函数上
+    connect(m_webSocketServer, &CWebSocketServer::clientDisconnected, this, &MainWindow::onWebSocketClientDisconnected);
+
     //     连接信号和槽
     QObject::connect(ui->pushButton_4, &QPushButton::clicked, &m_appEvent,
                      std::bind(&AppEvent::sendEvent,  &m_appEvent, "clicked", std::placeholders::_1));
@@ -104,8 +151,15 @@ void MainWindow::handleEvent(const QString& eventName, const QVariant& eventData
     qDebug()  << "MainWindow:" << eventName << eventData.toBool();
 }
 
-void MainWindow::showCameraFrame(cv::Mat& frame)
+void MainWindow::showCameraFrame()
 {
+    cv::Mat frame;
+    m_camera->read(frame);
+    if (frame.empty()) {
+    // emit sendCameraFrame(frame);
+        qDebug() << "DeviceManager:readCamereFrame 成功.";
+       return;
+    }
     // 显示读取的图像
     cv::resize(frame, frame, cv::Size(640, 480));
     QSize size = ui->m_lbl_display1->size();
@@ -115,8 +169,14 @@ void MainWindow::showCameraFrame(cv::Mat& frame)
     ui->m_lbl_display1->setPixmap(pixmap1);
 
     // 显示处理后的图像
-    cv::Mat output_image = frame.clone();
+    cv::Mat output_image;
+    if(ui->m_btn_load_algorithm->isChecked()){
+       // 初始化输出图像
 
+        onnx->run(frame, output_image);
+    }else{
+        output_image = frame.clone();
+    }
     // 处理输出图像
     // processor.process(output_image);
 
@@ -132,24 +192,26 @@ void MainWindow::showCameraFrame(cv::Mat& frame)
 void MainWindow::on_m_btn_open_camera_clicked()
 {
     // 打开相机
-    if (m_deviceManager.cameraOpened()) {
+    qDebug() << m_camera->isOpened();
+    if (m_camera->isOpened()) {
         if(m_readTimer->isActive()){
             m_readTimer->stop();
         };
-        m_deviceManager.closeCamera();
+        m_camera->close();
         ui->m_lbl_display1->clear();
         ui->m_lbl_display2->clear();
-
-//        QMessageBox::information(this, "Camera closed", "Camera closed successfully!");
-        ui->m_btn_open_camera->setText("Open Camera");
+        qDebug() << "MainWindow:Camera closed successfully!";
+        ui->m_btn_open_camera->setText("打开");
     } else {
-        m_deviceManager.initCamera(m_camType, m_camIndex);
-        bool success = m_deviceManager.openCamera(m_camIndex);
+        // 创建并初始化camera对象
+        m_camera = m_deviceManager.initCamera(m_camType);
+        // 根据索引打开相机
+        bool success = m_camera->open(m_camIndex);
         if (success) {
             m_readTimer->setInterval(int(1000/m_fps));
             m_readTimer->start();
-//            QMessageBox::information(this, "Camera opened", "Camera opened successfully!");
-            ui->m_btn_open_camera->setText("Close Camera");
+            qDebug() << "MainWindow:Camera opened successfully!";
+            ui->m_btn_open_camera->setText("关闭");
         } else {
             QMessageBox::critical(this, "Error", "Failed to open camera!");
         }
@@ -178,16 +240,8 @@ void MainWindow::on_m_cbx_camera_type_currentTextChanged(const QString &arg1)
     qDebug()<<"MainWindow:m_cbx_camera_type_currentTextChanged" << arg1;
     // 更新相机列表
     getCameraList();
-
 }
 
-void MainWindow::on_m_btn_reset_clicked()
-{
-    // 关闭相机
-//    m_deviceManager.cameraClosed();
-    // 重新初始化相机
-//    getCameraList();
-}
 
 
 void MainWindow::on_action_open_image_triggered()
@@ -260,6 +314,150 @@ void MainWindow::on_action_exit_triggered()
 
 void MainWindow::on_action_about_triggered() {
     QMessageBox::about(this, "关于", "作者: Spring.");
+}
+
+
+
+void MainWindow::on_m_btn_open_web_socket_clicked()
+{
+    if (m_webSocketServer->isListening()) {
+        // WebSocket 服务器正在监听，需要关闭服务器
+        m_webSocketServer->stop();
+        ui->m_btn_open_web_socket->setText(tr("打开"));
+        ui->statusbar->showMessage(tr("WebSocket server stopped."));
+    } else {
+        // WebSocket 服务器未启动，需要启动服务器
+        bool success = m_webSocketServer->start(m_port);
+        if (success) {
+            ui->m_btn_open_web_socket->setText(tr("关闭"));
+            ui->statusbar->showMessage(tr("WebSocket server started on port %1.").arg(m_port));
+        } else {
+            ui->statusbar->showMessage(tr("Failed to start WebSocket server on port %1.").arg(m_port));
+        }
+    }
+}
+
+void MainWindow::on_m_line_port_textChanged(const QString &arg1)
+{
+    m_port = arg1.toInt();
+    qDebug() << "Mainwindow:m_port is " << m_port;
+}
+
+void MainWindow::onWebSocketTextMessageReceived(QWebSocket *clientSocket, const QString& message)
+{
+    ui->textBrowser->append(QString("[%1]: %2").arg(clientSocket->peerAddress().toString()).arg(message));
+}
+
+void MainWindow::onWebSocketBinaryMessageReceived(QWebSocket *clientSocket, const QByteArray& message)
+{
+    QString str = QString::fromUtf8(message);
+    ui->textBrowser->append(QString("[%1]: %2").arg(clientSocket->peerAddress().toString()).arg(str));
+}
+
+
+void MainWindow::onWebSocketClientConnected(QWebSocket *clientSocket)
+{
+    // 获取客户端的 IP 和端口号
+    QString ip = clientSocket->peerAddress().toString();
+    int port = clientSocket->peerPort();
+
+    // 将客户端的 IP 和端口号添加到 comboBox 控件中
+    ui->comboBox_4->addItem(QString("%1:%2").arg(ip).arg(port));
+
+}
+
+void MainWindow::onWebSocketClientDisconnected(QWebSocket *clientSocket)
+{
+    // 获取客户端的 IP 和端口号
+    QString ip = clientSocket->peerAddress().toString();
+    int port = clientSocket->peerPort();
+
+    // 从 comboBox 控件中移除客户端的 IP 和端口号
+    ui->comboBox_4->removeItem(ui->comboBox_4->findText(QString("%1:%2").arg(ip).arg(port)));
+}
+
+
+void MainWindow::on_pushButton_9_clicked()
+{
+    // 获取要发送的消息
+    QString message = ui->plainTextEdit->toPlainText();
+    if (message.isEmpty()){
+        QMessageBox::information(this, "提示", "发送的信息为空");
+        return;
+    }
+
+    // 获取当前选中的客户端
+    QString clientStr = ui->comboBox_4->currentText();
+    if (clientStr.isEmpty()){
+    QMessageBox::information(this, "提示", "未选择客户端");
+        return;
+    }
+
+    // 查找与客户端对应的 WebSocket 连接
+    QList<QWebSocket*> clientSockets = m_webSocketServer->findClientSockets(clientStr);
+    if (clientSockets.isEmpty()){
+        qDebug() << "MainWindow:clientSockets is null";
+        return;
+    }
+
+    // 封装消息到 JSON 对象中
+    m_jsonObj["type"] = "image";
+    m_jsonObj["data1"] = 1;
+    m_jsonObj["data2"] = "Spring";
+//    m_jsonObj["data"] = QString::fromLatin1(imageData.toBase64().data());
+
+    // 将 JSON 对象转换为 JSON 文档，并将其发送到客户端
+    QJsonDocument docObj;
+    docObj.setObject(m_jsonObj);
+
+    // 遍历所有与客户端对应的 WebSocket 连接，发送消息
+    for (QWebSocket* client : clientSockets) {
+        m_webSocketServer->sendBinaryMessage(client, docObj.toJson());
+    }
+}
+
+
+
+void MainWindow::on_comboBox_3_currentTextChanged(const QString &arg1)
+{
+    //设置当前风格为
+    qApp->setStyle(QStyleFactory::create(arg1));
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    // 保存图像
+    m_camera->saveImage();
+}
+
+
+void MainWindow::on_checkBox_4_stateChanged(int arg1)
+{
+
+    if(arg1){
+        m_isGPU = true;
+        qDebug() << "MainWindow:当前ONNX设备GPU";
+    }else{
+        qDebug() << "MainWindow:当前ONNX设备CPU";
+        m_isGPU=false;
+    }
+}
+
+
+void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
+{
+    model_name = arg1.toStdString();
+}
+
+void MainWindow::on_pushButton_8_clicked(bool checked)
+{
+    if(checked){
+    // 设置ONNX
+        onnx = COnnx::createInstance(model_name, m_isGPU);
+    }else{
+
+    }
 }
 
 

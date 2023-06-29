@@ -3,22 +3,18 @@
 #include <QCameraDevice>
 #include <QMediaDevices>
 
-/**
- * @brief CUSBCamera 构造函数
- * @param
- */
-CUSBCamera::CUSBCamera()
-{
 
-}
-CUSBCamera::CUSBCamera(int index)
-    :m_index(index)
-{
+//CUSBCamera& CUSBCamera::getInstance()
+//{
+//    static CUSBCamera instance;
+//    return instance;
+//}
+
+CUSBCamera::CUSBCamera(){
 
 }
 
-CUSBCamera::~CUSBCamera() {
-    // 析构函数
+CUSBCamera::~CUSBCamera(){
     close();
 }
 
@@ -28,13 +24,14 @@ bool CUSBCamera::isOpened() const {
 }
 
 int CUSBCamera::open(){
+    //TODO:未实现
     return 0;
 }
 
 int CUSBCamera::open(int index) {
-
+    m_index = index;
     // 打开
-    if (!isOpened()&&m_capture.open(index)) {
+    if (!isOpened() && m_capture.open(m_index)) {
         qDebug() <<"CUSBCamera:打开成功！" << index;
         return 200;
     }
@@ -43,9 +40,8 @@ int CUSBCamera::open(int index) {
 
 void CUSBCamera::close(){
     // 关闭
-    if (isOpened()) {
-        m_capture.release();
-    }
+    m_capture.release();
+    qDebug() <<"CUSBCamera:关闭成功！";
 }
 
 bool CUSBCamera::read(cv::Mat& frame) {
@@ -63,6 +59,11 @@ void CUSBCamera::getCameraList(std::vector<std::string> &camera_list)
     for (const QCameraDevice &cameraDevice : cameraList) {
         camera_list.push_back(cameraDevice.description().toStdString());
     }
+}
+
+void CUSBCamera::saveImage()
+{
+
 }
 
 

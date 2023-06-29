@@ -30,7 +30,7 @@ signals:
 public:
 
 };
-
+int Normalization(int value) ;
 
 cv::Mat QImageTocvMat(const QImage &image);
 QImage cvMatToQImage(const cv::Mat& mat);

@@ -11,8 +11,8 @@ class CToupCamera : public CCamera
 {
 
 public:
+//    static CToupCamera& getInstance();
     CToupCamera();
-    CToupCamera(int index);
     ~CToupCamera();
     bool isOpened() const override;
     int open() override;
@@ -20,7 +20,13 @@ public:
     void close() override;
     bool read(cv::Mat& frame) override;
     void getCameraList(std::vector<std::string> &camera_list) override;
+    void saveImage() override;
 private:
+//    CToupCamera();
+//    CToupCamera(const CToupCamera&) = delete;
+//    CToupCamera& operator=(const CToupCamera&) = delete;
+//    ~CToupCamera() = default;
+
     int m_index;
     HToupcam        m_hcam =nullptr;
     uchar*          m_pData = nullptr;
@@ -29,6 +35,7 @@ private:
     unsigned        m_imgHeight;
     ToupcamFrameInfoV2* pInfo;
     ToupcamDeviceV2 m_arr[TOUPCAM_MAX]; //所有相机
+
     unsigned toupCamCount;
 private:
     void evtCallback(unsigned nEvent);
