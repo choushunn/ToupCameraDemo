@@ -28,16 +28,16 @@ endif()
 
 # 依赖库路径设置
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    # OpenCV
-    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv")
     # ToupCam
     set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/win")
+    # FastDeploy
+    set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-win-x64-gpu")
     # ncnn
     set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
     # onnxruntime
-    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
-    # FastDeploy
-    set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}\\fastdeploy-win-x64-gpu")
+    set(OnnxRuntime_DIR "${FastDeploy_DIR}/third_libs/install/onnxruntime")
+    # OpenCV
+    set(OpenCV_DIR "${FastDeploy_DIR}/third_libs/install/opencv/build")
     # CUDA
     set(CUDA_DIRECTORY "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -145,8 +145,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ncnn)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${FASTDEPLOY_LIBS}) # 添加FastDeploy库依赖
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/modules/connx/lib/connx.lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/modules/cdevice/lib/cdevice.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE connx)
+target_link_libraries(${PROJECT_NAME} PRIVATE cdevice)
 # 链接cdevice库文件
 
 # 添加预处理定义，防止冲突

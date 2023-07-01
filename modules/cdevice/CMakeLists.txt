@@ -28,14 +28,11 @@ set(${MODULE_NAME}_INCLUDE_DIR ${${MODULE_NAME}_INCLUDE_DIR} PARENT_SCOPE)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
-
 # 生成库文件
 add_library(${MODULE_NAME} STATIC
     ${SRC_FILES}
     ${HEADER_FILES})
 
-# 添加头文件路径
-target_include_directories(${MODULE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # 添加头文件路径
 target_include_directories(${MODULE_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
 
@@ -50,13 +47,9 @@ target_compile_definitions(${MODULE_NAME} PRIVATE ${MODULE_NAME}_LIBRARY)
 
 # 指定库文件输出路径
 set_target_properties(${MODULE_NAME} PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
-
-
-
-set(CDEVIC_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/lib/cdevice.lib")
 
 # 安装头文件和库文件
 install(DIRECTORY include/ DESTINATION include)
