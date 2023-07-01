@@ -300,12 +300,7 @@ void MainWindow::on_action_exit_triggered()
 
 
 
-//void MainWindow::on_pushButton_clicked() {
-//    //    创建一个窗口对象
-//    Dialog dialog(this);
-//    //    调用显示窗口的函数
-//    dialog.exec();
-//}
+
 
 
 void MainWindow::on_action_about_triggered() {
@@ -488,6 +483,18 @@ void MainWindow::on_expGainSlider_valueChanged(int value)
 
 void MainWindow::on_autoExpocheckBox_stateChanged(int arg1)
 {
+
+}
+
+void MainWindow::on_btn_open_dialog_clicked()
+{
+        //    创建一个窗口对象
+//        Dialog dialog(this);
+        //    调用显示窗口的函数
+//        dialog.setModal(false);
+//        dialog.exec();
+    Form *form = new Form();
+    form->show();
 
 }
 

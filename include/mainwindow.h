@@ -16,7 +16,7 @@
 #include "mythread.h"
 #include "connx.h"
 #include "devicemanager.h"
-
+#include "form.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -41,9 +41,9 @@ private:
     CWebSocketServer *m_webSocketServer = nullptr;
     QJsonObject m_jsonObj;
     COnnx* onnx = nullptr;
-//    COnnxNAF* onnx_naf = nullptr;
     MyThread *thread = new MyThread(this);
-    //ImageProcessor processor;
+    ImageProcessor processor;
+
     void setupUI();
     void setDefaultValues();
     void setDefaultStates();
@@ -55,6 +55,7 @@ private:
     int m_camIndex = 0;
     std::string m_camType = "USB";
     QTimer* m_readTimer;
+
     int m_fps = 30;
     int m_port = 10086;
     bool m_isGPU = false;
@@ -92,5 +93,6 @@ private slots:
      void on_expTimeSlider_valueChanged(int value);
      void on_expGainSlider_valueChanged(int value);
      void on_autoExpocheckBox_stateChanged(int arg1);
+     void on_btn_open_dialog_clicked();
 };
 #endif // MAINWINDOW_H
