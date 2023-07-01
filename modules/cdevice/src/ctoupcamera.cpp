@@ -82,7 +82,7 @@ bool CToupCamera::read(cv::Mat &frame) {
     if (isOpened()) {
         HRESULT hr = Toupcam_PullImageV2(m_hcam, m_pData, 24, pInfo);
         if (SUCCEEDED(hr)) {
-            qDebug() << "CToupCam:读取图像成功。" << pInfo->width << "x" << pInfo->height;
+//            qDebug() << "CToupCam:读取图像成功。" << pInfo->width << "x" << pInfo->height;
             // 将图像数据和大小信息存储到 Mat 对象中
             cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
             frame = image.clone();
@@ -92,7 +92,7 @@ bool CToupCamera::read(cv::Mat &frame) {
             // image.height = m_imgHeight;
             return true;
         }
-        qDebug() << "CToupCam:读取图像失败。" << FAILED(hr);
+//        qDebug() << "CToupCam:读取图像失败。" << FAILED(hr);
     }
     return false;
 }
@@ -131,9 +131,9 @@ void CToupCamera::saveImage()
  */
 void __stdcall CToupCamera::eventCallBack(unsigned nEvent, void *pCallbackCtx) {
     if (TOUPCAM_EVENT_IMAGE == nEvent) {
-        qDebug() << "CToupCam:handleEvent:pull image ok" << nEvent;
+//        qDebug() << "CToupCam:handleEvent:pull image ok" << nEvent;
     } else {
-        qDebug() << "CToupCam:handleEvent" << nEvent;
+//        qDebug() << "CToupCam:handleEvent" << nEvent;
     }
 }
 

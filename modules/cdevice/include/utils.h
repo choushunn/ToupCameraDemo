@@ -2,9 +2,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <QObject>
-#include <qdebug.h>
-#include <QImage>
+//#include <qdebug.h>
+//#include <QImage>
 
 
 //OpenCV 核心模块
@@ -19,20 +18,9 @@
 #include <opencv2/highgui.hpp>
 
 
-class Utils : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Utils(QObject *parent = nullptr);
-
-signals:
-
-public:
-
-};
 int Normalization(int value) ;
 
-cv::Mat QImageTocvMat(const QImage &image);
-QImage cvMatToQImage(const cv::Mat& mat);
+//cv::Mat QImageTocvMat(const QImage &image);
+//QImage cvMatToQImage(const cv::Mat& mat);
 
 #endif // UTILS_H

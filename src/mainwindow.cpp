@@ -2,18 +2,16 @@
 #include "./ui_mainwindow.h"
 #include "qstylefactory.h"
 
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
     setupUI();
     setDefaultValues();
     setDefaultStates();
     registerEvents();
     signalSlotConnect();
 }
+
 
 MainWindow::~MainWindow() {
     delete ui;
@@ -45,7 +43,7 @@ void MainWindow::setupUI()
     }
 
     // 设置ONNX
-    onnx = COnnx::createInstance(model_name, m_isGPU);
+//    onnx = COnnx::createInstance(model_name, m_isGPU);
 }
 
 void MainWindow::getCameraList(){
@@ -157,7 +155,6 @@ void MainWindow::showCameraFrame()
     m_camera->read(frame);
     if (frame.empty()) {
     // emit sendCameraFrame(frame);
-        qDebug() << "DeviceManager:readCamereFrame 成功.";
        return;
     }
     // 显示读取的图像
@@ -171,8 +168,7 @@ void MainWindow::showCameraFrame()
     // 显示处理后的图像
     cv::Mat output_image;
     if(ui->m_btn_load_algorithm->isChecked()){
-       // 初始化输出图像
-
+        // 算法处理输出图像
         onnx->run(frame, output_image);
     }else{
         output_image = frame.clone();
@@ -377,46 +373,6 @@ void MainWindow::onWebSocketClientDisconnected(QWebSocket *clientSocket)
 }
 
 
-void MainWindow::on_pushButton_9_clicked()
-{
-    // 获取要发送的消息
-    QString message = ui->plainTextEdit->toPlainText();
-    if (message.isEmpty()){
-        QMessageBox::information(this, "提示", "发送的信息为空");
-        return;
-    }
-
-    // 获取当前选中的客户端
-    QString clientStr = ui->comboBox_4->currentText();
-    if (clientStr.isEmpty()){
-    QMessageBox::information(this, "提示", "未选择客户端");
-        return;
-    }
-
-    // 查找与客户端对应的 WebSocket 连接
-    QList<QWebSocket*> clientSockets = m_webSocketServer->findClientSockets(clientStr);
-    if (clientSockets.isEmpty()){
-        qDebug() << "MainWindow:clientSockets is null";
-        return;
-    }
-
-    // 封装消息到 JSON 对象中
-    m_jsonObj["type"] = "image";
-    m_jsonObj["data1"] = 1;
-    m_jsonObj["data2"] = "Spring";
-//    m_jsonObj["data"] = QString::fromLatin1(imageData.toBase64().data());
-
-    // 将 JSON 对象转换为 JSON 文档，并将其发送到客户端
-    QJsonDocument docObj;
-    docObj.setObject(m_jsonObj);
-
-    // 遍历所有与客户端对应的 WebSocket 连接，发送消息
-    for (QWebSocket* client : clientSockets) {
-        m_webSocketServer->sendBinaryMessage(client, docObj.toJson());
-    }
-}
-
-
 
 void MainWindow::on_comboBox_3_currentTextChanged(const QString &arg1)
 {
@@ -450,15 +406,88 @@ void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
     model_name = arg1.toStdString();
 }
 
-void MainWindow::on_pushButton_8_clicked(bool checked)
+
+
+
+void MainWindow::on_m_btn_load_algorithm_clicked(bool checked)
 {
     if(checked){
-    // 设置ONNX
         onnx = COnnx::createInstance(model_name, m_isGPU);
-    }else{
-
     }
 }
 
 
+void MainWindow::on_m_btn_send_message_clicked()
+{
+    // 获取要发送的消息
+    QString message = ui->plainTextEdit->toPlainText();
+    if (message.isEmpty()){
+        QMessageBox::information(this, "提示", "发送的信息为空");
+        return;
+    }
+
+    // 获取当前选中的客户端
+    QString clientStr = ui->comboBox_4->currentText();
+    if (clientStr.isEmpty()){
+        QMessageBox::information(this, "提示", "未选择客户端");
+        return;
+    }
+
+    // 查找与客户端对应的 WebSocket 连接
+    QList<QWebSocket*> clientSockets = m_webSocketServer->findClientSockets(clientStr);
+    if (clientSockets.isEmpty()){
+        qDebug() << "MainWindow:clientSockets is null";
+        return;
+    }
+
+    // 封装消息到 JSON 对象中
+    m_jsonObj["type"] = "image";
+    m_jsonObj["data1"] = 1;
+    m_jsonObj["data2"] = "Spring";
+    //    m_jsonObj["data"] = QString::fromLatin1(imageData.toBase64().data());
+
+    // 将 JSON 对象转换为 JSON 文档，并将其发送到客户端
+    QJsonDocument docObj;
+    docObj.setObject(m_jsonObj);
+
+    // 遍历所有与客户端对应的 WebSocket 连接，发送消息
+    for (QWebSocket* client : clientSockets) {
+        m_webSocketServer->sendBinaryMessage(client, docObj.toJson());
+    }
+}
+
+
+void MainWindow::on_horizontalSlider_8_valueChanged(int value)
+{
+    // 帧率改变
+    m_fps= value;
+    // 定时器改变
+    m_readTimer->setInterval(int(1000/m_fps));
+    m_readTimer->start();
+    ui->label_fps->setText(QString::number(value));
+}
+
+
+void MainWindow::on_expTargetlSlider_valueChanged(int value)
+{
+
+}
+
+
+void MainWindow::on_expTimeSlider_valueChanged(int value)
+{
+
+}
+
+
+void MainWindow::on_expGainSlider_valueChanged(int value)
+{
+
+}
+
+
+void MainWindow::on_autoExpocheckBox_stateChanged(int arg1)
+{
+
+}
 

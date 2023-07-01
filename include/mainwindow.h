@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -6,13 +7,15 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTimer.h>
-#include <DeviceManager.h>
 #include "appinit.h"
 #include "appevent.h"
 #include "dialog.h"
 #include "ImageProcessor.h"
 #include <vector>
+#include <QtConcurrent>
+#include "mythread.h"
 #include "connx.h"
+#include "devicemanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,7 +41,8 @@ private:
     CWebSocketServer *m_webSocketServer = nullptr;
     QJsonObject m_jsonObj;
     COnnx* onnx = nullptr;
-    std::string model_name = "NAF";
+//    COnnxNAF* onnx_naf = nullptr;
+    MyThread *thread = new MyThread(this);
     //ImageProcessor processor;
     void setupUI();
     void setDefaultValues();
@@ -54,7 +58,7 @@ private:
     int m_fps = 30;
     int m_port = 10086;
     bool m_isGPU = false;
-
+    std::string model_name = "NAF";
 
 private slots:
     void handleEvent(const QString& eventName, const QVariant& eventData);
@@ -76,13 +80,17 @@ private slots:
      void onWebSocketTextMessageReceived(QWebSocket *clientSocket, const QString& message);
      void onWebSocketBinaryMessageReceived(QWebSocket *clientSocket, const QByteArray& message);
      void onWebSocketClientConnected(QWebSocket *clientSocket);
-
      void onWebSocketClientDisconnected(QWebSocket *clientSocket);
-     void on_pushButton_9_clicked();
      void on_comboBox_3_currentTextChanged(const QString &arg1);
      void on_pushButton_2_clicked();
      void on_checkBox_4_stateChanged(int arg1);
      void on_comboBox_2_currentTextChanged(const QString &arg1);
-     void on_pushButton_8_clicked(bool checked);
+     void on_m_btn_load_algorithm_clicked(bool checked);
+     void on_m_btn_send_message_clicked();
+     void on_horizontalSlider_8_valueChanged(int value);
+     void on_expTargetlSlider_valueChanged(int value);
+     void on_expTimeSlider_valueChanged(int value);
+     void on_expGainSlider_valueChanged(int value);
+     void on_autoExpocheckBox_stateChanged(int arg1);
 };
 #endif // MAINWINDOW_H

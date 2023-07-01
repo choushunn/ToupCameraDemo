@@ -32,7 +32,7 @@ int CUSBCamera::open(int index) {
     m_index = index;
     // 打开
     if (!isOpened() && m_capture.open(m_index)) {
-        qDebug() <<"CUSBCamera:打开成功！" << index;
+        qDebug() << "CUSBCamera:打开成功！" << index;
         return 200;
     }
     return isOpened();
@@ -41,7 +41,7 @@ int CUSBCamera::open(int index) {
 void CUSBCamera::close(){
     // 关闭
     m_capture.release();
-    qDebug() <<"CUSBCamera:关闭成功！";
+    qDebug() << "CUSBCamera:关闭成功！";
 }
 
 bool CUSBCamera::read(cv::Mat& frame) {

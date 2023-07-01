@@ -82,7 +82,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -144,7 +144,7 @@
    <property name="minimumSize">
     <size>
      <width>250</width>
-     <height>216</height>
+     <height>255</height>
     </size>
    </property>
    <property name="contextMenuPolicy">
@@ -171,8 +171,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>222</width>
-          <height>602</height>
+          <width>218</width>
+          <height>751</height>
          </rect>
         </property>
         <attribute name="label">
@@ -295,6 +295,46 @@
           </widget>
          </item>
          <item>
+          <widget class="QWidget" name="widget_6" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QLabel" name="label_fps_text">
+                <property name="text">
+                 <string>帧率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_fps">
+                <property name="text">
+                 <string>20</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QSlider" name="horizontalSlider_8">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>200</number>
+              </property>
+              <property name="value">
+               <number>20</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <widget class="QGroupBox" name="groupBox_3">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -306,35 +346,7 @@
             <string>曝光与增益</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="0" column="0">
-             <widget class="QCheckBox" name="checkBox">
-              <property name="text">
-               <string>自动曝光</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QSlider" name="horizontalSlider_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QSlider" name="horizontalSlider">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="0">
-             <widget class="QSlider" name="horizontalSlider_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
+            <item row="4" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
                <widget class="QLabel" name="label_2">
@@ -352,7 +364,32 @@
               </item>
              </layout>
             </item>
-            <item row="6" column="0">
+            <item row="13" column="1">
+             <widget class="QSlider" name="expGainSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>增益：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="8" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
                <widget class="QLabel" name="label_3">
@@ -370,23 +407,26 @@
               </item>
              </layout>
             </item>
-            <item row="9" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>增益：</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <item row="7" column="1">
+             <widget class="QSlider" name="expTargetlSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="autoExpocheckBox">
+              <property name="text">
+               <string>自动曝光</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QSlider" name="expTimeSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -432,7 +472,7 @@
                 </item>
                 <item>
                  <property name="text">
-                  <string>算法3</string>
+                  <string>YoloX</string>
                  </property>
                 </item>
                </widget>
@@ -594,8 +634,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>175</width>
-          <height>329</height>
+          <width>263</width>
+          <height>570</height>
          </rect>
         </property>
         <attribute name="label">
@@ -785,8 +825,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>185</width>
-          <height>318</height>
+          <width>232</width>
+          <height>570</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1153,8 +1193,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>129</width>
-          <height>305</height>
+          <width>274</width>
+          <height>570</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1221,7 +1261,7 @@
           <widget class="QComboBox" name="comboBox_4"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="m_btn_send_message">
            <property name="text">
             <string>发送</string>
            </property>
@@ -1244,8 +1284,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>95</height>
+          <width>232</width>
+          <height>570</height>
          </rect>
         </property>
         <attribute name="label">

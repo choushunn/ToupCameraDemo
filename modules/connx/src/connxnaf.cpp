@@ -1,5 +1,7 @@
 #include "connxnaf.h"
 
+#include <qDebug>
+
 COnnxNAF::COnnxNAF(bool isGPU)
     :m_isGPU(isGPU)
 {
@@ -70,9 +72,9 @@ COnnxNAF::~COnnxNAF()
 }
 
 
-void COnnxNAF:: preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor){
+//void COnnxNAF:: preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor){
 
-}
+//}
 
 
 
@@ -150,7 +152,7 @@ void COnnxNAF:: run(const cv::Mat input_image, cv::Mat& output_image){
 
 
 
-void COnnxNAF:: postProcessing(Ort::Value& output_tensor, cv::Mat& output_image){
+//void COnnxNAF:: postProcessing(Ort::Value& output_tensor, cv::Mat& output_image){
 
 
-}
+//}

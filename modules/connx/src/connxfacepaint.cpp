@@ -1,5 +1,6 @@
 #include "connxfacepaint.h"
 
+
 COnnxFacePaint::COnnxFacePaint(bool isGPU)
 {
     const std::string model_path="./models/face_paint_512_v2_0.onnx";
@@ -70,9 +71,9 @@ COnnxFacePaint::~COnnxFacePaint()
 }
 
 
-void COnnxFacePaint:: preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor){
+//void COnnxFacePaint:: preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor){
 
-}
+//}
 
 
 
@@ -140,7 +141,7 @@ void COnnxFacePaint:: run(const cv::Mat input_image, cv::Mat& output_image){
 
 
 
-void COnnxFacePaint:: postProcessing(Ort::Value& output_tensor, cv::Mat& output_image){
+//void COnnxFacePaint:: postProcessing(Ort::Value& output_tensor, cv::Mat& output_image){
 
 
-}
+//}

@@ -1,11 +1,9 @@
 #ifndef CONNXFACEPAINT_H
 #define CONNXFACEPAINT_H
 #include <opencv2/opencv.hpp>
-#include <QDebug>
 #include <onnxruntime_cxx_api.h>
-
 #include "connx.h"
-
+#include <QDebug>
 class COnnxFacePaint:public COnnx
 {
 public:
@@ -14,8 +12,8 @@ public:
     void run(const cv::Mat input_image, cv::Mat& output_image) override ;
 
 private:
-    void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor)override ;
-    void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image)override ;
+//    void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor) override ;
+//    void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image) override ;
     void getModelInfo();
 private:
     Ort::Env env{nullptr};
