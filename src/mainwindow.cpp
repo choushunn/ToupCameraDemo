@@ -178,18 +178,9 @@ void MainWindow::showCameraFrame()
     cv::Mat frame;
     m_camera->read(frame);
     if (frame.empty()) {
-    // emit sendCameraFrame(frame);
        return;
     }
-    // 显示读取的图像
     cv::resize(frame, frame, cv::Size(640, 480));
-    QSize size = ui->m_lbl_display1->size();
-    QImage qimage1(frame.data, frame.cols, frame.rows, QImage::Format_RGB888);
-    QPixmap pixmap1 = QPixmap::fromImage(qimage1);
-    pixmap1 = pixmap1.scaled(size, Qt::KeepAspectRatio);
-    ui->m_lbl_display1->setPixmap(pixmap1);
-
-    // 显示处理后的图像
     cv::Mat output_image;
     if(ui->m_btn_load_algorithm->isChecked()){
         // 算法处理输出图像
@@ -200,6 +191,18 @@ void MainWindow::showCameraFrame()
     // 处理输出图像
     // processor.process(output_image);
 
+    // 显示读取的图像
+    if(ui->m_cbx_camera_type->currentText()=="USB"){
+        cv::cvtColor(frame,frame,cv::COLOR_BGR2RGB);
+        cv::cvtColor(output_image, output_image,cv::COLOR_BGR2RGB);
+    }
+    QSize size = ui->m_lbl_display1->size();
+    QImage qimage1(frame.data, frame.cols, frame.rows, QImage::Format_RGB888);
+    QPixmap pixmap1 = QPixmap::fromImage(qimage1);
+    pixmap1 = pixmap1.scaled(size, Qt::KeepAspectRatio);
+    ui->m_lbl_display1->setPixmap(pixmap1);
+
+    // 显示处理后的图像
     cv::resize(output_image, output_image, cv::Size(640, 480));
     QImage qimage(output_image.data, output_image.cols, output_image.rows, QImage::Format_RGB888);
     QPixmap pixmap = QPixmap::fromImage(qimage);
@@ -323,10 +326,6 @@ void MainWindow::on_action_exit_triggered()
         break;
     }
 }
-
-
-
-
 
 
 void MainWindow::on_action_about_triggered() {
