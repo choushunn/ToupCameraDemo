@@ -1,3 +1,5 @@
+
+
 #include "cusbcamera.h"
 
 #include <QCameraDevice>

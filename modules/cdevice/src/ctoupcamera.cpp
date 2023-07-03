@@ -33,12 +33,14 @@ int CToupCamera::open(){
 
 int CToupCamera::open(int index) {
     // 打开
+    m_index = index;
     if (!isOpened()) {
-        m_hcam = Toupcam_Open(m_arr[index].id);
+        m_curDev = m_arr[m_index];
+        m_hcam = Toupcam_Open(m_curDev.id);
         if (m_hcam) {
             Toupcam_get_eSize(m_hcam, (unsigned *) &m_res);
-            m_imgWidth = m_arr[index].model->res[m_res].width;
-            m_imgHeight = m_arr[index].model->res[m_res].height;
+            m_imgWidth = m_curDev.model->res[m_res].width;
+            m_imgHeight = m_curDev.model->res[m_res].height;
             //初始化Toup设置
             //1:BGR,2:RGB,Qimage use RGB byte order
             Toupcam_put_Option(m_hcam, TOUPCAM_OPTION_BYTEORDER, 0);
@@ -82,7 +84,7 @@ bool CToupCamera::read(cv::Mat &frame) {
     if (isOpened()) {
         HRESULT hr = Toupcam_PullImageV2(m_hcam, m_pData, 24, pInfo);
         if (SUCCEEDED(hr)) {
-//            qDebug() << "CToupCam:读取图像成功。" << pInfo->width << "x" << pInfo->height;
+            //            qDebug() << "CToupCam:读取图像成功。" << pInfo->width << "x" << pInfo->height;
             // 将图像数据和大小信息存储到 Mat 对象中
             cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
             frame = image.clone();
@@ -92,7 +94,7 @@ bool CToupCamera::read(cv::Mat &frame) {
             // image.height = m_imgHeight;
             return true;
         }
-//        qDebug() << "CToupCam:读取图像失败。" << FAILED(hr);
+        //        qDebug() << "CToupCam:读取图像失败。" << FAILED(hr);
     }
     return false;
 }
@@ -101,7 +103,7 @@ void CToupCamera::getCameraList(std::vector<std::string> &camera_list)
 {
     int toupCamCount = Toupcam_EnumV2(m_arr);
     for (int i = 0; i < toupCamCount; ++i) {
-    qDebug() << m_arr[i].id << m_arr[i].displayname;
+        qDebug() << m_arr[i].id << m_arr[i].displayname;
 #ifdef _WIN32
         camera_list.push_back(QString::fromWCharArray(m_arr[i].displayname).toStdString());
 #else
@@ -119,11 +121,56 @@ void CToupCamera::saveImage()
         cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
         cv::imwrite("save.bmp", image);
         qDebug() << "save image ";
-//        image.save(QString::asprintf("toupcam_%u.jpg", ++m_count));
+        //        image.save(QString::asprintf("toupcam_%u.jpg", ++m_count));
     }
     qDebug() << "save image ffffff";
 }
 
+void CToupCamera::setAutoExpo(int state)
+{
+    if(this->isOpened()){
+        if(Toupcam_put_AutoExpoEnable(this->m_hcam, state) < 0){
+            return;
+        }
+    }
+}
+
+void CToupCamera::setExpoTime(int value){
+    if(this->isOpened()){
+        Toupcam_put_ExpoTime(m_hcam, value);
+    }
+}
+
+void CToupCamera::setExpoTarget(int value)
+{
+    if(this->isOpened()){
+        Toupcam_put_ExpoAGain(m_hcam, value);
+    }
+}
+
+void CToupCamera::setExpoGain(int value){
+    if(this->isOpened()){
+        Toupcam_put_ExpoAGain(m_hcam, value);
+    }
+}
+
+
+void CToupCamera::getContext(Context &ctx)
+{
+    if(this->isOpened()){
+        Toupcam_get_ExpTimeRange(m_hcam, &ctx.uimin, &ctx.uimax, &ctx.uidef);
+        Toupcam_get_ExpoAGainRange(m_hcam, &ctx.usmin, &ctx.usmax, &ctx.usdef);
+        qDebug() << "读取Toup相机参数成功";
+    }
+}
+void CToupCamera::getResolution(std::vector<std::string>& res){
+    if(this->isOpened()){
+        for(int i=0; i< m_curDev.model->preview;++i){
+            std::string str = std::to_string(m_curDev.model->res[i].width) + "*" + std::to_string(m_curDev.model->res[i].height);
+            res.push_back(str);
+        }
+    }
+}
 
 /**
  * @brief 回调函数
@@ -131,9 +178,9 @@ void CToupCamera::saveImage()
  */
 void __stdcall CToupCamera::eventCallBack(unsigned nEvent, void *pCallbackCtx) {
     if (TOUPCAM_EVENT_IMAGE == nEvent) {
-//        qDebug() << "CToupCam:handleEvent:pull image ok" << nEvent;
+        //        qDebug() << "CToupCam:handleEvent:pull image ok" << nEvent;
     } else {
-//        qDebug() << "CToupCam:handleEvent" << nEvent;
+        //        qDebug() << "CToupCam:handleEvent" << nEvent;
     }
 }
 

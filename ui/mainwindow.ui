@@ -137,13 +137,13 @@
   <widget class="QDockWidget" name="dockWidget_2">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>0</horstretch>
+     <horstretch>1</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
    <property name="minimumSize">
     <size>
-     <width>250</width>
+     <width>300</width>
      <height>255</height>
     </size>
    </property>
@@ -164,14 +164,14 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page_7">
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-63</y>
-          <width>222</width>
+          <y>0</y>
+          <width>272</width>
           <height>657</height>
          </rect>
         </property>
@@ -219,7 +219,7 @@
           <widget class="QWidget" name="widget_2" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="m_cmb_resolution">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>2</horstretch>
@@ -440,7 +440,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_6">
+               <widget class="QLabel" name="label_exp_target">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -465,7 +465,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="label_exp_gain">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -483,7 +483,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="label_exp_time">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -634,7 +634,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>232</width>
+          <width>282</width>
           <height>594</height>
          </rect>
         </property>
@@ -825,7 +825,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>232</width>
+          <width>282</width>
           <height>594</height>
          </rect>
         </property>
@@ -1193,7 +1193,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>274</width>
+          <width>282</width>
           <height>594</height>
          </rect>
         </property>
@@ -1284,7 +1284,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>232</width>
+          <width>282</width>
           <height>594</height>
          </rect>
         </property>

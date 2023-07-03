@@ -51,6 +51,7 @@ private:
     void unregisterEvents();
     void signalSlotConnect();
     void getCameraList();
+    void setCameraUI();
 
     int m_camIndex = 0;
     std::string m_camType = "USB";

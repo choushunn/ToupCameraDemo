@@ -42,8 +42,29 @@ void MainWindow::setupUI()
         ui->m_ipComboBox->addItem(ip.toString());
     }
 
+    // 设置相机控件默认值
+    ui->expGainSlider->setEnabled(false);
+    ui->expTimeSlider->setEnabled(false);
+    ui->expTargetlSlider->setEnabled(false);
+
     // 设置ONNX
 //    onnx = COnnx::createInstance(model_name, m_isGPU);
+}
+
+
+void MainWindow::setCameraUI(){
+    // 设置自动曝光按钮为选中
+    ui->autoExpocheckBox->setCheckState(Qt::CheckState::Checked);
+    ui->autoExpocheckBox->setEnabled(true);
+    // 设置滑动条按钮不可用
+    ui->expTimeSlider->setEnabled(false);
+    ui->expGainSlider->setEnabled(false);
+    std::vector<std::string> res;
+    m_camera->getResolution(res);
+    // 将分辨率列表添加到combox1中
+    for (const auto& str : res) {
+        ui->m_cmb_resolution->addItem(QString::fromStdString(str));
+    }
 }
 
 void MainWindow::getCameraList(){
@@ -134,12 +155,12 @@ void MainWindow::signalSlotConnect(){
     // 将 WebSocket 服务器的 clientDisconnected 信号连接到 onWebSocketClientDisconnected 槽函数上
     connect(m_webSocketServer, &CWebSocketServer::clientDisconnected, this, &MainWindow::onWebSocketClientDisconnected);
 
-    //     连接信号和槽
-    QObject::connect(ui->pushButton_4, &QPushButton::clicked, &m_appEvent,
-                     std::bind(&AppEvent::sendEvent,  &m_appEvent, "clicked", std::placeholders::_1));
+//    //     连接信号和槽
+//    QObject::connect(ui->pushButton_4, &QPushButton::clicked, &m_appEvent,
+//                     std::bind(&AppEvent::sendEvent,  &m_appEvent, "clicked", std::placeholders::_1));
 
-    QObject::connect(ui->checkBox_2, &QCheckBox::stateChanged, &m_appEvent,
-                     std::bind(&AppEvent::sendEvent,  &m_appEvent, "check", std::placeholders::_1));
+//    QObject::connect(ui->checkBox_2, &QCheckBox::stateChanged, &m_appEvent,
+//                     std::bind(&AppEvent::sendEvent,  &m_appEvent, "check", std::placeholders::_1));
 }
 
 
@@ -208,6 +229,7 @@ void MainWindow::on_m_btn_open_camera_clicked()
             m_readTimer->start();
             qDebug() << "MainWindow:Camera opened successfully!";
             ui->m_btn_open_camera->setText("关闭");
+            setCameraUI();
         } else {
             QMessageBox::critical(this, "Error", "Failed to open camera!");
         }
@@ -465,25 +487,49 @@ void MainWindow::on_horizontalSlider_8_valueChanged(int value)
 
 void MainWindow::on_expTargetlSlider_valueChanged(int value)
 {
-
+    m_camera->setExpoTarget(value);
+    ui->label_exp_target->setText(QString::number(value));
 }
 
 
 void MainWindow::on_expTimeSlider_valueChanged(int value)
 {
-
+    m_camera->setExpoTime(value);
+    double valueInMs = value / 1000.0;
+    QString valueString = QString::number(valueInMs, 'f', 3) + "ms";
+    ui->label_exp_time->setText(valueString);
 }
 
 
 void MainWindow::on_expGainSlider_valueChanged(int value)
 {
-
+    m_camera->setExpoGain(value);
+    QString valueString = QString::number(value) + "%";
+    ui->label_exp_gain->setText(valueString);
 }
 
 
 void MainWindow::on_autoExpocheckBox_stateChanged(int arg1)
 {
-
+    if(m_camType == "TOUP"){
+        //设置相机自动曝光
+        m_camera->setAutoExpo(arg1);
+        qDebug() << "setAutoExpo:" << arg1;
+        ui->expTimeSlider->setEnabled(!arg1);
+        ui->expGainSlider->setEnabled(!arg1);
+        // 设置曝光时间初始值
+        Context ctx;
+        m_camera->getContext(ctx);
+        // 曝光时间
+        ui->expTimeSlider->setRange(ctx.uimin, ctx.uimax);
+        ui->expTimeSlider->setValue(ctx.uidef);
+        // 增益
+        ui->expGainSlider->setRange(ctx.usmin, ctx.usmax);
+        ui->expGainSlider->setValue(ctx.usdef);
+    }else{
+        ui->expTimeSlider->setEnabled(false);
+        ui->expGainSlider->setEnabled(false);
+    }
 }
 
 void MainWindow::on_btn_open_dialog_clicked()
@@ -496,5 +542,11 @@ void MainWindow::on_btn_open_dialog_clicked()
     Form *form = new Form();
     form->show();
 
+}
+
+
+void MainWindow::on_m_cmb_resolution_currentIndexChanged(int index)
+{
+    //分辨率切换
 }
 

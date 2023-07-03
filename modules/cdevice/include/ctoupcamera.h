@@ -21,6 +21,12 @@ public:
     bool read(cv::Mat& frame) override;
     void getCameraList(std::vector<std::string> &camera_list) override;
     void saveImage() override;
+    void setAutoExpo(int state) override;
+    void setExpoTime(int value) override;
+    void setExpoTarget(int value) override;
+    void setExpoGain(int value) override;
+    void getContext(Context& ctx) override;
+    void getResolution(std::vector<std::string>& res) override;
 private:
 //    CToupCamera();
 //    CToupCamera(const CToupCamera&) = delete;
@@ -35,7 +41,7 @@ private:
     unsigned        m_imgHeight;
     ToupcamFrameInfoV2* pInfo;
     ToupcamDeviceV2 m_arr[TOUPCAM_MAX]; //所有相机
-
+    ToupcamDeviceV2  m_curDev;
     unsigned toupCamCount;
 private:
     void evtCallback(unsigned nEvent);
