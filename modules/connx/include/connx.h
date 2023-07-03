@@ -12,8 +12,8 @@ public:
     //工厂方法
     static COnnx* createInstance(const std::string& type, bool isGPU = false);
 private:
-//    virtual void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor)= 0;
-//    virtual void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image) = 0;
+    virtual void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor)= 0;
+    virtual void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image) = 0;
 
 };
 

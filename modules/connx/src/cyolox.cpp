@@ -32,12 +32,12 @@ void CYoloX::run(const cv::Mat input_image, cv::Mat &output_image)
     output_image = vis_im;
 }
 
-//void CYoloX::preProcessing(const cv::Mat &input_image, Ort::Value &input_tensor)
-//{
+void CYoloX::preProcessing(const cv::Mat &input_image, Ort::Value &input_tensor)
+{
 
-//}
+}
 
-//void CYoloX::postProcessing(Ort::Value &output_tensor, cv::Mat &output_image)
-//{
+void CYoloX::postProcessing(Ort::Value &output_tensor, cv::Mat &output_image)
+{
 
-//}
+}
