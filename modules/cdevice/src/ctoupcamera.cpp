@@ -1,5 +1,7 @@
 #include "ctoupcamera.h"
 
+#include <QImage>
+
 //CToupCamera& CToupCamera::getInstance()
 //{
 //    static CToupCamera instance;
@@ -86,7 +88,7 @@ bool CToupCamera::read(cv::Mat &frame) {
         if (SUCCEEDED(hr)) {
             //            qDebug() << "CToupCam:读取图像成功。" << pInfo->width << "x" << pInfo->height;
             // 将图像数据和大小信息存储到 Mat 对象中
-            cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
+            cv::Mat image(pInfo->height, pInfo->width, CV_8UC3, m_pData);
             frame = image.clone();
             // 将图像数据和大小信息存储到 ImageData 对象中
             // image.data = m_pData;
@@ -114,16 +116,7 @@ void CToupCamera::getCameraList(std::vector<std::string> &camera_list)
 
 void CToupCamera::saveImage()
 {
-    // 保存图像
-    std::vector<uchar> vec(TDIBWIDTHBYTES(m_imgWidth * 24) * m_imgHeight);
-    if (SUCCEEDED(Toupcam_PullStillImageV2(m_hcam, &vec[0], 24, pInfo)))
-    {
-        cv::Mat image(m_imgHeight, m_imgWidth, CV_8UC3, m_pData);
-        cv::imwrite("save.bmp", image);
-        qDebug() << "save image ";
-        //        image.save(QString::asprintf("toupcam_%u.jpg", ++m_count));
-    }
-    qDebug() << "save image ffffff";
+
 }
 
 void CToupCamera::setAutoExpo(int state)
@@ -163,24 +156,62 @@ void CToupCamera::getContext(Context &ctx)
         qDebug() << "读取Toup相机参数成功";
     }
 }
+
+
 void CToupCamera::getResolution(std::vector<std::string>& res){
     if(this->isOpened()){
-        for(int i=0; i< m_curDev.model->preview;++i){
+        for(unsigned i=0; i< m_curDev.model->preview;++i){
             std::string str = std::to_string(m_curDev.model->res[i].width) + "*" + std::to_string(m_curDev.model->res[i].height);
             res.push_back(str);
         }
     }
 }
 
+void CToupCamera::setResolution(int index)
+{
+    if(this->isOpened()){
+        m_res = index;
+        m_imgWidth = m_curDev.model->res[m_res].width;
+        m_imgHeight = m_curDev.model->res[m_res].height;
+        Toupcam_put_eSize(m_hcam, static_cast<unsigned>(m_res));
+    }
+}
+
+void CToupCamera::getSnap()
+{
+    Toupcam_Snap(m_hcam, m_res);
+}
+
+
+void CToupCamera::handleImageStill(){
+    qDebug() << "CToupCam:开始捕获" << g_totalstill;
+    unsigned width = 0, height = 0;
+    if (SUCCEEDED(Toupcam_PullStillImage(m_hcam, nullptr, 24, &width, &height))) // peek
+    {
+        std::vector<uchar> vec(TDIBWIDTHBYTES(width * 24) * height);
+        if (SUCCEEDED(Toupcam_PullStillImage(m_hcam, &vec[0], 24, &width, &height)))
+        {
+            std::string file_name = "snaps/ctoupcam_" + std::to_string(++g_totalstill) + ".bmp";
+            QImage image(&vec[0], width, height, QImage::Format_RGB888);
+            image.save(QString::fromStdString(file_name));
+        }
+    }
+};
+
+
 /**
  * @brief 回调函数
  * @param
  */
-void __stdcall CToupCamera::eventCallBack(unsigned nEvent, void *pCallbackCtx) {
+void CToupCamera::eventCallBack(unsigned nEvent, void *pCallbackCtx) {
+    CToupCamera* pThis = static_cast<CToupCamera*>(pCallbackCtx);
+
     if (TOUPCAM_EVENT_IMAGE == nEvent) {
         //        qDebug() << "CToupCam:handleEvent:pull image ok" << nEvent;
-    } else {
-        //        qDebug() << "CToupCam:handleEvent" << nEvent;
+    } else if(TOUPCAM_EVENT_DISCONNECTED == nEvent){
+        qDebug() << "CToupCam:断开连接" << nEvent;
+    }else if(TOUPCAM_EVENT_STILLIMAGE == nEvent){
+        pThis->handleImageStill();
     }
 }
 

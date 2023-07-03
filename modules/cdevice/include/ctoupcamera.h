@@ -27,6 +27,8 @@ public:
     void setExpoGain(int value) override;
     void getContext(Context& ctx) override;
     void getResolution(std::vector<std::string>& res) override;
+    void setResolution(int index) override;
+    void getSnap() override;
 private:
 //    CToupCamera();
 //    CToupCamera(const CToupCamera&) = delete;
@@ -36,16 +38,18 @@ private:
     int m_index;
     HToupcam        m_hcam =nullptr;
     uchar*          m_pData = nullptr;
-    int             m_res;
-    unsigned        m_imgWidth;
-    unsigned        m_imgHeight;
+    int             m_res = 0;
+    unsigned        m_imgWidth = 0;
+    unsigned        m_imgHeight = 0;
     ToupcamFrameInfoV2* pInfo;
     ToupcamDeviceV2 m_arr[TOUPCAM_MAX]; //所有相机
     ToupcamDeviceV2  m_curDev;
-    unsigned toupCamCount;
+    unsigned toupCamCount = 0;
+    unsigned g_totalstill = 0;
 private:
     void evtCallback(unsigned nEvent);
-    static void __stdcall eventCallBack(unsigned nEvent, void *pCallbackCtx);
+    static void eventCallBack(unsigned nEvent, void *pCallbackCtx);
+    void handleImageStill();
 };
 
 #endif // CTOUPCAMERA_H

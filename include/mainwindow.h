@@ -95,5 +95,6 @@ private slots:
      void on_expGainSlider_valueChanged(int value);
      void on_autoExpocheckBox_stateChanged(int arg1);
      void on_btn_open_dialog_clicked();
+     void on_m_cmb_resolution_currentIndexChanged(int index);
 };
 #endif // MAINWINDOW_H

@@ -29,6 +29,8 @@ public:
     virtual void setExpoGain(int value){};
     virtual void getContext(Context& ctx){};
     virtual void getResolution(std::vector<std::string>& res){};
+    virtual void setResolution(int index){};
+    virtual void getSnap(){};
 };
 
 #endif // CCAMERA_H

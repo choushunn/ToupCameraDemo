@@ -46,6 +46,7 @@ void MainWindow::setupUI()
     ui->expGainSlider->setEnabled(false);
     ui->expTimeSlider->setEnabled(false);
     ui->expTargetlSlider->setEnabled(false);
+    ui->m_cmb_resolution->setEnabled(false);
 
     // 设置ONNX
 //    onnx = COnnx::createInstance(model_name, m_isGPU);
@@ -61,10 +62,12 @@ void MainWindow::setCameraUI(){
     ui->expGainSlider->setEnabled(false);
     std::vector<std::string> res;
     m_camera->getResolution(res);
+    ui->m_cmb_resolution->clear();
     // 将分辨率列表添加到combox1中
     for (const auto& str : res) {
         ui->m_cmb_resolution->addItem(QString::fromStdString(str));
     }
+    ui->m_cmb_resolution->setEnabled(true);
 }
 
 void MainWindow::getCameraList(){
@@ -209,7 +212,7 @@ void MainWindow::showCameraFrame()
 void MainWindow::on_m_btn_open_camera_clicked()
 {
     // 打开相机
-    qDebug() << m_camera->isOpened();
+//    qDebug() << m_camera->isOpened();
     if (m_camera->isOpened()) {
         if(m_readTimer->isActive()){
             m_readTimer->stop();
@@ -219,6 +222,7 @@ void MainWindow::on_m_btn_open_camera_clicked()
         ui->m_lbl_display2->clear();
         qDebug() << "MainWindow:Camera closed successfully!";
         ui->m_btn_open_camera->setText("打开");
+        ui->m_cmb_resolution->setEnabled(false);
     } else {
         // 创建并初始化camera对象
         m_camera = m_deviceManager.initCamera(m_camType);
@@ -401,7 +405,7 @@ void MainWindow::on_comboBox_3_currentTextChanged(const QString &arg1)
 void MainWindow::on_pushButton_2_clicked()
 {
     // 保存图像
-    m_camera->saveImage();
+    m_camera->getSnap();
 }
 
 
@@ -548,5 +552,6 @@ void MainWindow::on_btn_open_dialog_clicked()
 void MainWindow::on_m_cmb_resolution_currentIndexChanged(int index)
 {
     //分辨率切换
+    m_camera->setResolution(index);
 }
 

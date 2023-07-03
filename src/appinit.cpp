@@ -26,7 +26,7 @@ AppInit::AppInit(QObject* parent)
     //    setProjectEncoding();
     //    setTranslations();
     //    initializeRandomSeed();
-    //    createProjectDirectories();
+        createProjectDirectories();
     //    initializeDatabase();
     //    startLoggingService();
     //    startRuntimeRecord();
@@ -91,6 +91,7 @@ void AppInit::createProjectDirectories()
     // 新建项目中需要的目录
     QDir().mkdir("data");
     QDir().mkdir("logs");
+    QDir().mkdir("snaps");
 }
 
 void AppInit::initializeDatabase()
