@@ -1,9 +1,11 @@
 #include "connx.h"
+#include "cmsvsr.h"
 #include "connxnaf.h"
 #include "connxfacepaint.h"
 #include "cyolox.h"
 #include "segunet.h"
 #include "QDebug"
+#include "cyolov5face.h"
 
 COnnx::COnnx()
 {
@@ -23,7 +25,14 @@ COnnx* COnnx::createInstance(const std::string& type, bool isGPU) {
     }else if(type=="SegUnet"){
         qDebug() << "COnnx:创建SegUnet模型";
         return new SegUnet(isGPU);
-    }else {
+    }else if(type=="YOLOv5Face"){
+        qDebug() << "COnnx:创建YOLOv5Face模型";
+        return new CYOLOv5Face(isGPU);
+    }else if(type=="MSVSR"){
+        qDebug() << "COnnx:创建MSVSR模型";
+        return new CMSVSR(isGPU);
+    }
+    else {
         return nullptr;
     }
 }

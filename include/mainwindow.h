@@ -96,5 +96,6 @@ private slots:
      void on_autoExpocheckBox_stateChanged(int arg1);
      void on_btn_open_dialog_clicked();
      void on_m_cmb_resolution_currentIndexChanged(int index);
+     void on_checkBox_result_window_stateChanged(int arg1);
 };
 #endif // MAINWINDOW_H

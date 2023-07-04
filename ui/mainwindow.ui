@@ -44,6 +44,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="m_lbl_display1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>窗口1</string>
             </property>
@@ -55,7 +61,7 @@
           <item>
            <widget class="QLabel" name="m_lbl_display2">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+             <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -219,6 +225,13 @@
           <widget class="QWidget" name="widget_2" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
+             <widget class="QCheckBox" name="checkBox_result_window">
+              <property name="text">
+               <string>单窗口</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QComboBox" name="m_cmb_resolution">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -370,6 +383,21 @@
                 </item>
                 <item>
                  <property name="text">
+                  <string>YoloX</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>YOLOv5Face</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>PPMSVSR</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string>SegUnet</string>
                  </property>
                 </item>
@@ -380,7 +408,7 @@
                 </item>
                 <item>
                  <property name="text">
-                  <string>YoloX</string>
+                  <string>MSVSR</string>
                  </property>
                 </item>
                </widget>
@@ -435,7 +463,14 @@
             <string>曝光与增益</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="4" column="1">
+            <item row="9" column="1">
+             <widget class="QSlider" name="expTargetlSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
                <widget class="QLabel" name="label_2">
@@ -453,32 +488,7 @@
               </item>
              </layout>
             </item>
-            <item row="13" column="1">
-             <widget class="QSlider" name="expGainSlider">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>增益：</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_exp_gain">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="8" column="1">
+            <item row="10" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
                <widget class="QLabel" name="label_3">
@@ -496,21 +506,7 @@
               </item>
              </layout>
             </item>
-            <item row="7" column="1">
-             <widget class="QSlider" name="expTargetlSlider">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QCheckBox" name="autoExpocheckBox">
-              <property name="text">
-               <string>自动曝光</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="1">
+            <item row="12" column="1">
              <widget class="QSlider" name="expTimeSlider">
               <property name="singleStep">
                <number>1000</number>
@@ -522,6 +518,38 @@
                <enum>Qt::Horizontal</enum>
               </property>
              </widget>
+            </item>
+            <item row="15" column="1">
+             <widget class="QSlider" name="expGainSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QCheckBox" name="autoExpocheckBox">
+              <property name="text">
+               <string>自动曝光</string>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>增益：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_exp_gain">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -645,8 +673,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>175</width>
+          <height>329</height>
          </rect>
         </property>
         <attribute name="label">
@@ -836,8 +864,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>185</width>
+          <height>318</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1204,8 +1232,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>129</width>
+          <height>305</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1295,8 +1323,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>122</width>
+          <height>119</height>
          </rect>
         </property>
         <attribute name="label">

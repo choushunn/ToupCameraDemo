@@ -196,14 +196,19 @@ void MainWindow::showCameraFrame()
         cv::cvtColor(frame,frame,cv::COLOR_BGR2RGB);
         cv::cvtColor(output_image, output_image,cv::COLOR_BGR2RGB);
     }
-    QSize size = ui->m_lbl_display1->size();
-    QImage qimage1(frame.data, frame.cols, frame.rows, QImage::Format_RGB888);
-    QPixmap pixmap1 = QPixmap::fromImage(qimage1);
-    pixmap1 = pixmap1.scaled(size, Qt::KeepAspectRatio);
-    ui->m_lbl_display1->setPixmap(pixmap1);
-
+    QSize size;
+    // 没有选择单窗口则显示原始图像
+    if(!ui->checkBox_result_window->isChecked()){
+        size = ui->m_lbl_display1->size();
+        QImage qimage1(frame.data, frame.cols, frame.rows, QImage::Format_RGB888);
+        QPixmap pixmap1 = QPixmap::fromImage(qimage1);
+        pixmap1 = pixmap1.scaled(size, Qt::KeepAspectRatio);
+        ui->m_lbl_display1->setPixmap(pixmap1);
+        cv::resize(output_image, output_image, cv::Size(640, 480));
+    }else{
+        size = ui->m_lbl_display2->size();
+    }
     // 显示处理后的图像
-    cv::resize(output_image, output_image, cv::Size(640, 480));
     QImage qimage(output_image.data, output_image.cols, output_image.rows, QImage::Format_RGB888);
     QPixmap pixmap = QPixmap::fromImage(qimage);
     pixmap = pixmap.scaled(size, Qt::KeepAspectRatio);
@@ -552,5 +557,16 @@ void MainWindow::on_m_cmb_resolution_currentIndexChanged(int index)
 {
     //分辨率切换
     m_camera->setResolution(index);
+}
+
+
+void MainWindow::on_checkBox_result_window_stateChanged(int arg1)
+{
+    // 选中则只显示结果窗口
+    if(arg1){
+        ui->m_lbl_display1->setVisible(false);
+    }else{
+        ui->m_lbl_display1->setVisible(true);
+    }
 }
 
