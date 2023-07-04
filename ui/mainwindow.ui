@@ -370,6 +370,11 @@
                 </item>
                 <item>
                  <property name="text">
+                  <string>SegUnet</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string>FP</string>
                  </property>
                 </item>
@@ -507,6 +512,9 @@
             </item>
             <item row="10" column="1">
              <widget class="QSlider" name="expTimeSlider">
+              <property name="singleStep">
+               <number>1000</number>
+              </property>
               <property name="pageStep">
                <number>1000</number>
               </property>

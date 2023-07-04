@@ -2,6 +2,7 @@
 #include "connxnaf.h"
 #include "connxfacepaint.h"
 #include "cyolox.h"
+#include "segunet.h"
 #include "QDebug"
 
 COnnx::COnnx()
@@ -19,6 +20,9 @@ COnnx* COnnx::createInstance(const std::string& type, bool isGPU) {
     } else if(type=="YoloX"){
         qDebug() << "COnnx:创建YoloX模型";
         return new CYoloX(isGPU);
+    }else if(type=="SegUnet"){
+        qDebug() << "COnnx:创建SegUnet模型";
+        return new SegUnet(isGPU);
     }else {
         return nullptr;
     }
