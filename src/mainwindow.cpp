@@ -208,6 +208,14 @@ void MainWindow::showCameraFrame()
     }else{
         size = ui->m_lbl_display2->size();
     }
+
+//    // 进行锐化处理
+//    cv::Mat kernel = (cv::Mat_<float>(3,3) <<  0, -1,  0,
+//                  -1,  5, -1,
+//                  0, -1,  0);
+//    cv::filter2D(frame, output_image, CV_8UC3, kernel);
+
+
     // 显示处理后的图像
     QImage qimage(output_image.data, output_image.cols, output_image.rows, QImage::Format_RGB888);
     QPixmap pixmap = QPixmap::fromImage(qimage);
@@ -429,6 +437,8 @@ void MainWindow::on_checkBox_4_stateChanged(int arg1)
 void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
 {
     model_name = arg1.toStdString();
+    // 切换算法才创建
+    onnx = COnnx::createInstance(model_name, m_isGPU);
 }
 
 
@@ -437,7 +447,9 @@ void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
 void MainWindow::on_m_btn_load_algorithm_clicked(bool checked)
 {
     if(checked){
-        onnx = COnnx::createInstance(model_name, m_isGPU);
+        if(onnx != nullptr){
+            onnx = COnnx::createInstance(model_name, m_isGPU);
+        }
     }
 }
 
@@ -542,11 +554,7 @@ void MainWindow::on_autoExpocheckBox_stateChanged(int arg1)
 
 void MainWindow::on_btn_open_dialog_clicked()
 {
-        //    创建一个窗口对象
-//        Dialog dialog(this);
-        //    调用显示窗口的函数
-//        dialog.setModal(false);
-//        dialog.exec();
+    //    创建一个窗口对象
     Form *form = new Form();
     form->show();
 

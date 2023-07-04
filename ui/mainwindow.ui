@@ -383,6 +383,11 @@
                 </item>
                 <item>
                  <property name="text">
+                  <string>EDVR</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string>YoloX</string>
                  </property>
                 </item>
@@ -673,8 +678,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>175</width>
-          <height>329</height>
+          <width>282</width>
+          <height>594</height>
          </rect>
         </property>
         <attribute name="label">
@@ -864,8 +869,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>185</width>
-          <height>318</height>
+          <width>282</width>
+          <height>594</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1232,8 +1237,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>129</width>
-          <height>305</height>
+          <width>282</width>
+          <height>594</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1323,8 +1328,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>122</width>
-          <height>119</height>
+          <width>282</width>
+          <height>594</height>
          </rect>
         </property>
         <attribute name="label">
