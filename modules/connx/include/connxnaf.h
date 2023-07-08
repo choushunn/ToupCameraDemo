@@ -3,10 +3,13 @@
 #include <opencv2/opencv.hpp>
 #include <onnxruntime_cxx_api.h>
 #include "connx.h"
+#include <fastdeploy/vision.h>
+
 
 class COnnxNAF:public COnnx
 {
 public:
+    COnnxNAF();
     COnnxNAF(bool isGPU=false);
     ~COnnxNAF();
     void run(const cv::Mat input_image, cv::Mat& output_image) override;
@@ -15,6 +18,7 @@ private:
     void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor) override;
     void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image) override;
     void getModelInfo();
+    fastdeploy::vision::detection::NAF*  model;
 
 private:
     Ort::Env env{nullptr};

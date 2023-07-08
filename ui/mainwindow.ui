@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>17</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -150,7 +150,7 @@
    <property name="minimumSize">
     <size>
      <width>300</width>
-     <height>255</height>
+     <height>299</height>
     </size>
    </property>
    <property name="contextMenuPolicy">
@@ -177,8 +177,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>272</width>
-          <height>657</height>
+          <width>302</width>
+          <height>855</height>
          </rect>
         </property>
         <attribute name="label">
@@ -379,6 +379,11 @@
                 <item>
                  <property name="text">
                   <string>NAF</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>PicoDet-RK3588</string>
                  </property>
                 </item>
                 <item>
@@ -678,8 +683,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>347</width>
+          <height>524</height>
          </rect>
         </property>
         <attribute name="label">
@@ -869,8 +874,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>278</width>
+          <height>524</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1237,8 +1242,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>303</width>
+          <height>524</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1328,8 +1333,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>282</width>
-          <height>594</height>
+          <width>278</width>
+          <height>524</height>
          </rect>
         </property>
         <attribute name="label">
