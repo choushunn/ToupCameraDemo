@@ -2,6 +2,70 @@
 
 #include <qDebug>
 
+
+//COnnxNAF::COnnxNAF()
+//{
+//    std::string  model_file = "./models/Net.onnx";
+//    model = new fastdeploy::vision::detection::NAF(model_file);
+//}
+
+//COnnxNAF::COnnxNAF(bool isGPU)
+//{
+//    std::string  model_file = "./models/Net.onnx";
+//    auto option = fastdeploy::RuntimeOption();
+//    option.UseGpu();
+//    model = new fastdeploy::vision::detection::NAF(model_file,"",option);
+//}
+
+//void COnnxNAF::run(const cv::Mat input_image, cv::Mat &output_image)
+//{
+//    if (!model->Initialized()) {
+//        std::cerr << "Failed to initialize." << std::endl;
+//        return;
+//    }
+//    const cv::Mat im = input_image;
+//    fastdeploy::vision::FaceDetectionResult res;
+//    if (!model->Predict(im, &res)) {
+//        std::cerr << "Failed to predict." << std::endl;
+//        return;
+//    }
+//    std::cout << res.Str() << std::endl;
+
+//    auto vis_im = fastdeploy::vision::VisFaceDetection(im, res);
+
+//    output_image = vis_im;
+//}
+
+
+
+
+
+//void COnnxNAF::preProcessing(const cv::Mat &input_image, Ort::Value &input_tensor)
+//{
+
+//}
+
+//void COnnxNAF::postProcessing(Ort::Value &output_tensor, cv::Mat &output_image)
+//{
+
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 COnnxNAF::COnnxNAF(bool isGPU)
     :m_isGPU(isGPU)
 {
@@ -143,7 +207,7 @@ void COnnxNAF:: run(const cv::Mat input_image, cv::Mat& output_image){
         }
     }
     output_image = dst;
-//    cv::cvtColor(dst, output_image, cv::COLOR_BGR2RGB);
+    cv::cvtColor(dst, output_image, cv::COLOR_BGR2RGB);
 
     //    cv::Mat output_image1(height, width, CV_32FC3, outputData);
     //    output_image1.convertTo(output_image1, CV_8UC3, 255);
