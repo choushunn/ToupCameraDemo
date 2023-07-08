@@ -12,3 +12,9 @@ Form::~Form()
 {
     delete ui;
 }
+
+void Form::on_pushButton_2_clicked()
+{
+
+}
+
