@@ -19,8 +19,8 @@ set(CMAKE_INSTALL_PREFIX install)
 
 # 配置库文件路径
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-#    set(THIRD_PARTY_LIB_PATH "F:\\share\\runtime")
-    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\runtime")
+    set(THIRD_PARTY_LIB_PATH "F:\\share\\runtime\\win")
+#    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\runtime")
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(THIRD_PARTY_LIB_PATH "/root/runtime")
@@ -31,7 +31,7 @@ endif()
 # 依赖库路径设置
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     # ToupCam
-    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/win")
+    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam")
     # FastDeploy
     set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-win-x64-gpu")
     # ncnn

@@ -18,7 +18,7 @@ private:
     void preProcessing(const cv::Mat& input_image, Ort::Value& input_tensor) override;
     void postProcessing(Ort::Value& output_tensor, cv::Mat& output_image) override;
     void getModelInfo();
-    fastdeploy::vision::detection::NAF*  model;
+
 
 private:
     Ort::Env env{nullptr};
