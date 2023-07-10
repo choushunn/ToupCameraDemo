@@ -5,7 +5,6 @@
 #include "connx.h"
 #include <fastdeploy/vision.h>
 
-
 class COnnxNAF:public COnnx
 {
 public:

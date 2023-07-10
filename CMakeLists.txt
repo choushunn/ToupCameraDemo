@@ -27,6 +27,7 @@ else()
     message(FATAL_ERROR "Unsupported current platform: ${CMAKE_SYSTEM_NAME}")
 endif()
 
+
 # 依赖库路径设置
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     # ToupCam
