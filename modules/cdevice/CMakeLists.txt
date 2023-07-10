@@ -35,8 +35,7 @@ add_library(${MODULE_NAME} STATIC
 
 # 添加头文件路径
 target_include_directories(${MODULE_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
-
-
+target_include_directories(${MODULE_NAME} PUBLIC ${TOUPCAM_INCLUDE_DIR})
 target_link_libraries(${MODULE_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::WebSockets)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::SerialPort)

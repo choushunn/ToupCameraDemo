@@ -28,8 +28,12 @@ COnnxFacePaint::COnnxFacePaint(bool isGPU)
     }
 
     //const std::string model_path1 = "./models/face_paint_512_v2_0.onnx";
+#ifdef _WIN32
     std::wstring widestr = std::wstring(model_path.begin(), model_path.end());
     session = Ort::Session(env, widestr.c_str(), sessionOptions);
+#else
+    session = Ort::Session(env, model_path.c_str(), sessionOptions);
+#endif
     this->getModelInfo();
     qDebug() <<"COnnxFacePaint:init.";
 }

@@ -70,6 +70,23 @@ void MainWindow::setCameraUI(){
     ui->m_cmb_resolution->setEnabled(true);
 }
 
+/**
+ * @brief findCameraIndex 根据ID查询/dev/video的序号
+ * @param cameraId 读取的相机id
+ */
+int findCameraIndex(QByteArray cameraId){
+    std::string dev_name_str(cameraId.data(), cameraId.size());
+    std::size_t pos = dev_name_str.find("/dev/video");
+    int dev_num =0;
+    if (pos != std::string::npos) {
+        std::string num_str = dev_name_str.substr(pos + 10);
+        dev_num = std::stoi(num_str);
+        qDebug() << "Device number: " << dev_num;
+        return dev_num;
+    }
+    return 0;
+}
+
 void MainWindow::getCameraList(){
     // 读取相机列表
     ui->m_cbx_camera_list->clear();
@@ -95,9 +112,11 @@ void MainWindow::getCameraList(){
         if(m_camType == "USB"){
 #ifdef _WIN32
             m_camIndex = ui->m_cbx_camera_list->currentIndex();
+
 #else
-            QByteArray dev_name = m_cameraList[m_cameraIndex].id();
-            m_cameraIndex = findCameraIndex(dev_name);
+            int cbx_camera_index = ui->m_cbx_camera_list->currentIndex();
+            QByteArray cameraId = camera_list[cbx_camera_index];
+            m_camIndex = findCameraIndex(cameraId);
 #endif
         }else{
 

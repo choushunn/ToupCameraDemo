@@ -42,7 +42,6 @@ private:
     COnnx* onnx = nullptr;
     MyThread *thread = new MyThread(this);
     ImageProcessor processor;
-
     void setupUI();
     void setDefaultValues();
     void setDefaultStates();

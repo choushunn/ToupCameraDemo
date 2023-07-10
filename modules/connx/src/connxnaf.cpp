@@ -1,70 +1,6 @@
 #include "connxnaf.h"
 
-#include <qDebug>
-
-
-//COnnxNAF::COnnxNAF()
-//{
-//    std::string  model_file = "./models/Net.onnx";
-//    model = new fastdeploy::vision::detection::NAF(model_file);
-//}
-
-//COnnxNAF::COnnxNAF(bool isGPU)
-//{
-//    std::string  model_file = "./models/Net.onnx";
-//    auto option = fastdeploy::RuntimeOption();
-//    option.UseGpu();
-//    model = new fastdeploy::vision::detection::NAF(model_file,"",option);
-//}
-
-//void COnnxNAF::run(const cv::Mat input_image, cv::Mat &output_image)
-//{
-//    if (!model->Initialized()) {
-//        std::cerr << "Failed to initialize." << std::endl;
-//        return;
-//    }
-//    const cv::Mat im = input_image;
-//    fastdeploy::vision::FaceDetectionResult res;
-//    if (!model->Predict(im, &res)) {
-//        std::cerr << "Failed to predict." << std::endl;
-//        return;
-//    }
-//    std::cout << res.Str() << std::endl;
-
-//    auto vis_im = fastdeploy::vision::VisFaceDetection(im, res);
-
-//    output_image = vis_im;
-//}
-
-
-
-
-
-//void COnnxNAF::preProcessing(const cv::Mat &input_image, Ort::Value &input_tensor)
-//{
-
-//}
-
-//void COnnxNAF::postProcessing(Ort::Value &output_tensor, cv::Mat &output_image)
-//{
-
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#include <QDebug>
 
 COnnxNAF::COnnxNAF(bool isGPU)
     :m_isGPU(isGPU)
@@ -92,9 +28,12 @@ COnnxNAF::COnnxNAF(bool isGPU)
     {
         qDebug() << "COnnxNAF:Inference device: CPU" ;
     }
-
+#ifdef _WIN32
     std::wstring widestr = std::wstring(m_model_path.begin(), m_model_path.end());
     session = Ort::Session(env, widestr.c_str(), sessionOptions);
+#else
+    session = Ort::Session(env, m_model_path.c_str(), sessionOptions);
+#endif
     this->getModelInfo();
     qDebug() <<"COnnxNAF:init SUCCESS.";
 }

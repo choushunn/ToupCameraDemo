@@ -49,20 +49,21 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
         # arm64版本
         set(LIB_ARCH aarch64)
+        # ToupCam 系统内置，不用打开
+        # set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/lib/cmake/toupcam")
+
+        # FastDeploy
+        set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-linux-aarch64")
+        # ncnn
+        set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
+        # onnxruntime
+        set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
+        # OpenCV
+        set(OpenCV_DIR "${FastDeploy_DIR}/third_libs/install/opencv/share/OpenCV")
     else()
         # 不支持的处理器架构
         message(FATAL_ERROR "Unsupported processor architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
     endif()
-    # ToupCam
-    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam")
-    # FastDeploy
-    set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-linux-aarch64")
-    # ncnn
-    set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
-    # onnxruntime
-    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
-    # OpenCV
-    set(OpenCV_DIR "${FastDeploy_DIR}/third_libs/install/opencv/share/OpenCV")
 endif()
 
 # 导入第三方库
@@ -88,7 +89,7 @@ add_subdirectory(modules/cdevice)
 include_directories(include)
 include_directories(modules/connx/include)
 include_directories(modules/cdevice/include)
-
+include_directories(${PROJECT_NAME} PUBLIC ${TOUPCAM_INCLUDE_DIR})
 # 添加FastDeploy依赖头文件
 include_directories(${FASTDEPLOY_INCS})
 
