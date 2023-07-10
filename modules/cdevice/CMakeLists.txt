@@ -29,7 +29,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 # 生成动态库文件
-add_library(${MODULE_NAME} STATIC
+add_library(${MODULE_NAME} SHARED
     ${SRC_FILES}
     ${HEADER_FILES})
 
@@ -47,7 +47,7 @@ target_link_libraries(${MODULE_NAME} PRIVATE Qt6::SerialPort)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::Multimedia)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::Concurrent)
 target_link_libraries(${MODULE_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
-
+target_link_libraries(${MODULE_NAME} PRIVATE ${OpenCV_LIBS})
 target_compile_definitions(${MODULE_NAME} PRIVATE ${MODULE_NAME}_LIBRARY)
 
 # 指定库文件输出路径

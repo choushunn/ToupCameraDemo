@@ -151,7 +151,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ncnn)
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${FastDeploy_LIBS}) # 添加FastDeploy库依赖
 target_link_libraries(${PROJECT_NAME} PRIVATE connx)
 target_link_libraries(${PROJECT_NAME} PRIVATE cdevice)

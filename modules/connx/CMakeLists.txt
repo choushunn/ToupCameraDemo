@@ -27,7 +27,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 
 # 生成动态库文件
-add_library(${MODULE_NAME} STATIC
+add_library(${MODULE_NAME} SHARED
     ${SRC_FILES}
     ${HEADER_FILES})
 
@@ -38,8 +38,8 @@ add_library(${MODULE_NAME} STATIC
 
 # 链接依赖库
 target_link_libraries(${MODULE_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-#target_link_libraries(${MODULE_NAME} PRIVATE ${FastDeploy_LIBS}) # 添加FastDeploy库依赖
-
+target_link_libraries(${MODULE_NAME} PRIVATE ${FastDeploy_LIBS}) # 添加FastDeploy库依赖
+target_link_libraries(${MODULE_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
 # 添加头文件路径
 target_include_directories(${MODULE_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
 target_include_directories(${MODULE_NAME} PUBLIC ${FASTDEPLOY_INCS})
