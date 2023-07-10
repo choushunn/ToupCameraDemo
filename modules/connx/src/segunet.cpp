@@ -41,7 +41,7 @@ void SegUnet::run(const cv::Mat input_image, cv::Mat &output_image)
     // 推理
     auto im = input_image;
     fastdeploy::vision::SegmentationResult res;
-    if (!model->Predict(im, &res)) {
+    if (!model->Predict(&im, &res)) {
         std::cerr << "Failed to predict." << std::endl;
         return;
     }

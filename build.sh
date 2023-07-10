@@ -7,7 +7,9 @@ fi
 
 # 进入build文件夹
 cd build
+LIB_PATH=/root/runtime/fastdeploy-linux-aarch64/lib
+LIB_NAME=fastdeploy
 
 # 执行cmake和make命令
 cmake ..
-make -j$(nproc)
+make -j$(nproc) LDFLAGS="-L${LIB_PATH}" LDLIBS="-l${LIB_NAME}"

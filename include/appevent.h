@@ -2,9 +2,9 @@
 #define APPEVENT_H
 
 #include <QObject>
-#include <QVariant.h>
+#include <QVariant>
 #include <QMutex>
-#include <qdebug.h>
+#include <QDebug>
 
 class AppEvent : public QObject
 {
