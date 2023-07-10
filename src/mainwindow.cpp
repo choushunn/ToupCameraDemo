@@ -554,9 +554,6 @@ void MainWindow::on_autoExpocheckBox_stateChanged(int arg1)
 
 void MainWindow::on_btn_open_dialog_clicked()
 {
-    //    创建一个窗口对象
-    Form *form = new Form();
-    form->show();
 
 }
 

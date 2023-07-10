@@ -6,17 +6,16 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QTimer.h>
+#include <QTimer>
+#include <vector>
+#include <QtConcurrent>
 #include "appinit.h"
 #include "appevent.h"
 #include "dialog.h"
-#include "ImageProcessor.h"
-#include <vector>
-#include <QtConcurrent>
+#include "imageprocessor.h"
 #include "mythread.h"
 #include "connx.h"
 #include "devicemanager.h"
-#include "form.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

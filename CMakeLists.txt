@@ -19,7 +19,7 @@ set(CMAKE_INSTALL_PREFIX install)
 
 # 配置库文件路径
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(THIRD_PARTY_LIB_PATH "F:\\share\\runtime")
+    set(THIRD_PARTY_LIB_PATH "F:\\share\\runtime\\win_x64")
 #    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\runtime")
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -31,7 +31,7 @@ endif()
 # 依赖库路径设置
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     # ToupCam
-    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/win")
+    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam")
     # FastDeploy
     set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-win-x64-gpu")
     # ncnn
@@ -53,10 +53,16 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
         # 不支持的处理器架构
         message(FATAL_ERROR "Unsupported processor architecture: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
     endif()
-    # 设置OpenCV路径
-    set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}/opencv/lib/cmake/opencv4")
-    # 设置OnnxRuntime路径
-    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime-gpu")
+    # ToupCam
+    set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam")
+    # FastDeploy
+    set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-linux-aarch64")
+    # ncnn
+    set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
+    # onnxruntime
+    set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
+    # OpenCV
+    set(OpenCV_DIR "${FastDeploy_DIR}/third_libs/install/opencv/share/OpenCV")
 endif()
 
 # 导入第三方库
@@ -67,7 +73,7 @@ find_package(OnnxRuntime REQUIRED)
 find_package(FastDeploy REQUIRED)
 
 # 查找Qt库
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)

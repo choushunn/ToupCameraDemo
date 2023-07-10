@@ -42,6 +42,7 @@ target_link_libraries(${MODULE_NAME} PRIVATE Qt6::WebSockets)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::SerialPort)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::Multimedia)
 target_link_libraries(${MODULE_NAME} PRIVATE Qt6::Concurrent)
+target_link_libraries(${MODULE_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
 
 target_compile_definitions(${MODULE_NAME} PRIVATE ${MODULE_NAME}_LIBRARY)
 

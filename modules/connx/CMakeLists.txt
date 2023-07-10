@@ -37,7 +37,7 @@ target_link_libraries(${MODULE_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 # 添加头文件路径
 target_include_directories(${MODULE_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
 target_include_directories(${MODULE_NAME} PUBLIC ${FASTDEPLOY_INCS})
-
+target_include_directories(${MODULE_NAME} PUBLIC ${Qt6Core_INCLUDE_DIRS})
 # 指定库文件输出路径
 set_target_properties(${MODULE_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
