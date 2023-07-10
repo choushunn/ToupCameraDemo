@@ -59,7 +59,7 @@ void CUSBCamera::getCameraList(std::vector<std::string> &camera_list)
     // 获取USB相机列表
     QList<QCameraDevice> cameraList = QMediaDevices::videoInputs();
     for (const QCameraDevice &cameraDevice : cameraList) {
-        camera_list.push_back(cameraDevice.description().toStdString());
+        camera_list.push_back(cameraDevice.id().toStdString());
     }
 }
 

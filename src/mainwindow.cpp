@@ -74,8 +74,9 @@ void MainWindow::setCameraUI(){
  * @brief findCameraIndex 根据ID查询/dev/video的序号
  * @param cameraId 读取的相机id
  */
-int findCameraIndex(QByteArray cameraId){
-    std::string dev_name_str(cameraId.data(), cameraId.size());
+int findCameraIndex(std::string cameraId){
+//    std::string dev_name_str(cameraId.data(), cameraId.size());
+    std::string dev_name_str = cameraId;
     std::size_t pos = dev_name_str.find("/dev/video");
     int dev_num =0;
     if (pos != std::string::npos) {
@@ -84,7 +85,7 @@ int findCameraIndex(QByteArray cameraId){
         qDebug() << "Device number: " << dev_num;
         return dev_num;
     }
-    return 0;
+    return dev_num;
 }
 
 void MainWindow::getCameraList(){
@@ -115,7 +116,7 @@ void MainWindow::getCameraList(){
 
 #else
             int cbx_camera_index = ui->m_cbx_camera_list->currentIndex();
-            QByteArray cameraId = camera_list[cbx_camera_index];
+            std::string cameraId = camera_list[cbx_camera_index];
             m_camIndex = findCameraIndex(cameraId);
 #endif
         }else{

@@ -19,9 +19,8 @@ set(CMAKE_INSTALL_PREFIX install)
 
 # 配置库文件路径
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(THIRD_PARTY_LIB_PATH "F:\\share\\runtime\\win_x64")
+    set(THIRD_PARTY_LIB_PATH "F:/share/runtime/win")
 #    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\runtime")
-
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(THIRD_PARTY_LIB_PATH "/root/runtime")
 else()
@@ -57,7 +56,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
         # ncnn
         set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
         # onnxruntime
-        set(OnnxRuntime_DIR "${THIRD_PARTY_LIB_PATH}/onnxruntime")
+        set(OnnxRuntime_DIR "${FastDeploy_DIR}/third_libs/install/onnxruntime")
         # OpenCV
         set(OpenCV_DIR "${FastDeploy_DIR}/third_libs/install/opencv/share/OpenCV")
     else()
@@ -89,7 +88,7 @@ add_subdirectory(modules/cdevice)
 include_directories(include)
 include_directories(modules/connx/include)
 include_directories(modules/cdevice/include)
-include_directories(${PROJECT_NAME} PUBLIC ${TOUPCAM_INCLUDE_DIR})
+include_directories(${TOUPCAM_INCLUDE_DIR})
 # 添加FastDeploy依赖头文件
 include_directories(${FASTDEPLOY_INCS})
 
@@ -152,8 +151,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${TOUPCAM_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ncnn)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${FASTDEPLOY_LIBS}) # 添加FastDeploy库依赖
+#target_link_libraries(${PROJECT_NAME} PRIVATE ${ONNXRUNTIME_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${FastDeploy_LIBS}) # 添加FastDeploy库依赖
 target_link_libraries(${PROJECT_NAME} PRIVATE connx)
 target_link_libraries(${PROJECT_NAME} PRIVATE cdevice)
 # 链接cdevice库文件

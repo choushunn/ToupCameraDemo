@@ -28,10 +28,15 @@ set(${MODULE_NAME}_INCLUDE_DIR ${${MODULE_NAME}_INCLUDE_DIR} PARENT_SCOPE)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
-# 生成库文件
+# 生成动态库文件
 add_library(${MODULE_NAME} STATIC
     ${SRC_FILES}
     ${HEADER_FILES})
+
+# 生成静态库文件
+#add_library(${MODULE_NAME} STATIC
+#    ${SRC_FILES}
+#    ${HEADER_FILES})
 
 # 添加头文件路径
 target_include_directories(${MODULE_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
