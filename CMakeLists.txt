@@ -53,7 +53,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
         # set(ToupCam_DIR "${THIRD_PARTY_LIB_PATH}/toupcam/lib/cmake/toupcam")
 
         # FastDeploy
-        set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-linux-aarch64")
+        set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-install")
         # ncnn
         set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}/ncnn/x64/lib/cmake/ncnn")
         # onnxruntime

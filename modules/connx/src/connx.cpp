@@ -7,7 +7,7 @@
 #include "cyolov5face.h"
 #include "cedvr.h"
 #include "cpicodet.h"
-
+#include "crkyolov7.h"
 COnnx::COnnx()
 {
 
@@ -34,7 +34,7 @@ COnnx* COnnx::createInstance(const std::string& type, bool isGPU) {
         return new CEDVR(isGPU);
     } else if(type=="PicoDet-RK3588"){
         qDebug() << "CPicoDet:创建CPicoDet模型";
-        return new CPicoDet(isGPU);
+        return new CRKYOLOv7(isGPU);
     }else {
         return nullptr;
     }

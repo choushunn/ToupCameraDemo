@@ -12,7 +12,7 @@ CYoloX::CYoloX(bool isGPU)
     // GPU推理
     std::string  model_file = "./models/yolox_s.onnx";
     auto option = fastdeploy::RuntimeOption();
-    option.UseGpu();
+//    option.UseGpu();
     model = new fastdeploy::vision::detection::YOLOX(model_file,"",option);
 }
 
