@@ -146,7 +146,7 @@ void COnnxNAF:: run(const cv::Mat input_image, cv::Mat& output_image){
         }
     }
     output_image = dst;
-    cv::cvtColor(dst, output_image, cv::COLOR_BGR2RGB);
+//    cv::cvtColor(dst, output_image, cv::COLOR_RGB2BGR);
 
     //    cv::Mat output_image1(height, width, CV_32FC3, outputData);
     //    output_image1.convertTo(output_image1, CV_8UC3, 255);

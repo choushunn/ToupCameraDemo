@@ -19,7 +19,7 @@ set(CMAKE_INSTALL_PREFIX install)
 
 # 配置库文件路径
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(THIRD_PARTY_LIB_PATH "F:/share/runtime/win")
+    set(THIRD_PARTY_LIB_PATH "e:/share/runtime/win")
 #    set(THIRD_PARTY_LIB_PATH "D:\\Projects\\runtime")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(THIRD_PARTY_LIB_PATH "/root/runtime")
